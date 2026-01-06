@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SendJim - Data Science Targeting</title>
     <style>
+        :root {
+            --background-color: #fbf9fa;
+            --primary-color: #007afe;
+            --primary-active: #e0efff;
+            --surface-color: #FFFFFF;
+            --secondary-color: #002d5a;
+            --secondary-active-color: #002d5a33;
+            --tertiary-color: #39393c;
+            --warning-color: #da6612;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,27 +23,35 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Poppins', 'Open Sans', sans-serif;
+            background: var(--background-color);
         }
         
         .page-header {
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
+            background: var(--surface-color);
+            border: 1px solid #e7eaec;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+        
+        .panel-heading-custom {
+            background: var(--surface-color);
+            border-bottom: 1px solid #e7eaec;
             padding: 15px 20px;
         }
         
-        .page-header h1 {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 12px;
+        .panel-title-custom {
+            font-size: 16px;
+            font-weight: 600;
+            color: #676a6c;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .page-header h1::before {
+        .panel-title-custom::before {
             content: "📍";
+            font-size: 18px;
         }
         
         .search-container {
@@ -41,73 +60,132 @@
             margin-bottom: 12px;
         }
         
-        .search-container input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
             font-size: 14px;
-        }
-        
-        .search-container button {
-            padding: 10px 30px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
         
-        .search-container button:hover {
-            background: #0056b3;
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 3px;
+        }
+        
+        .btn-info {
+            color: #fff;
+            background-color: #1ab394;
+            border-color: #1ab394;
+        }
+        
+        .btn-info:hover {
+            background-color: #18a689;
+            border-color: #18a689;
+        }
+        
+        .btn-default {
+            color: #676a6c;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+        
+        .btn-default:hover {
+            background-color: #f8f8f8;
+            border-color: #ccc;
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            color: var(--primary-color);
+            background-color: white;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
         
         .tabs {
             display: flex;
             gap: 0;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 1px solid #e7eaec;
+            background: var(--surface-color);
+            padding: 0 20px;
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                padding: 0 10px;
+            }
         }
         
         .tab {
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: transparent;
             border: none;
             border-bottom: 3px solid transparent;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            color: #666;
+            color: #676a6c;
             transition: all 0.2s;
             position: relative;
-            bottom: -2px;
+            bottom: -1px;
         }
         
         .tab:hover {
-            color: #333;
+            color: var(--primary-color);
             background: #f8f9fa;
         }
         
         .tab.active {
-            color: #007bff;
-            border-bottom-color: #007bff;
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
         }
         
         /* Controls Panel */
         .controls-panel {
-            background: #f8f9fa;
-            border-bottom: 2px solid #e0e0e0;
+            background: var(--surface-color);
+            border-bottom: 1px solid #e7eaec;
             padding: 20px;
         }
         
+        @media (max-width: 768px) {
+            .controls-panel {
+                padding: 15px 10px;
+            }
+        }
+        
         .callout-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
             color: white;
             padding: 18px 20px;
-            border-radius: 8px;
+            border-radius: 4px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 122, 254, 0.2);
         }
         
         .callout-box h3 {
@@ -155,6 +233,18 @@
             padding: 15px 20px;
             border-radius: 8px;
             border: 2px solid #e0e0e0;
+        }
+        
+        @media (max-width: 768px) {
+            .mode-toggle {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .mode-toggle-label {
+                text-align: center;
+                margin-bottom: 10px;
+            }
         }
         
         .mode-toggle-label {
@@ -246,9 +336,16 @@
         
         .controls-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 2fr;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .controls-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
         }
         
         .control-group {
@@ -264,18 +361,22 @@
         }
         
         .control-group input[type="number"],
-        .control-group select {
-            padding: 10px 12px;
-            border: 1px solid #ddd;
+        .control-group input[type="text"],
+        .control-group select,
+        .form-control {
+            padding: 8px 12px;
+            border: 1px solid #e5e6e7;
             border-radius: 4px;
             font-size: 14px;
+            width: 100%;
         }
         
         .control-group input:focus,
-        .control-group select:focus {
+        .control-group select:focus,
+        .form-control:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 254, 0.1);
         }
         
         .input-with-suffix {
@@ -296,6 +397,25 @@
             align-items: center;
             padding-top: 15px;
             border-top: 1px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .qualifiers-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .qualifiers-row > div[style*="margin-left"] {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+            
+            .analyze-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         .qualifiers-label {
@@ -324,24 +444,25 @@
         }
         
         .analyze-btn {
-            padding: 12px 30px;
-            background: #28a745;
+            padding: 8px 24px;
+            background: #1ab394;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
             transition: all 0.2s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         
         .analyze-btn:hover {
-            background: #218838;
+            background: #18a689;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            box-shadow: 0 2px 8px rgba(26, 179, 148, 0.3);
         }
         
         /* Custom Shape Mode */
@@ -381,7 +502,7 @@
             display: inline-block;
             width: 16px;
             height: 16px;
-            background: #007bff;
+            background: var(--primary-color);
             color: white;
             border-radius: 50%;
             text-align: center;
@@ -390,6 +511,38 @@
             font-weight: bold;
             cursor: help;
             margin-left: 5px;
+            position: relative;
+        }
+        
+        .help-icon:hover::after {
+            content: attr(title);
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            font-weight: normal;
+            max-width: 300px;
+            white-space: normal;
+            width: max-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .help-icon:hover::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 2px);
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+            z-index: 1001;
         }
         
         /* Map Container */
@@ -488,7 +641,7 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, #1ab394 0%, #18a689 100%);
             color: white;
             padding: 25px;
             position: relative;
@@ -737,6 +890,16 @@
             gap: 10px;
         }
         
+        @media (max-width: 768px) {
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
         .btn {
             padding: 14px 32px;
             border-radius: 6px;
@@ -816,11 +979,10 @@
 <body>
     <!-- Page Header -->
     <div class="page-header">
-        <h1>Radius Bomb Map</h1>
-        
-        <div class="search-container">
-            <input type="text" id="addressInput" placeholder="Search for specific address">
-            <button onclick="handleAddressSearch()">Search</button>
+        <div class="panel-heading-custom">
+            <h4 class="panel-title-custom">
+                Radius Bomb Map
+            </h4>
         </div>
         
         <div class="tabs">
@@ -862,11 +1024,19 @@
         
         <!-- Circle Mode Controls -->
         <div id="circleControls" class="circle-controls">
+            <div class="control-group" style="margin-bottom: 20px;">
+                <label for="addressInput">
+                    Center Address
+                    <span class="help-icon" title="Enter your business location or the area you want to target. The map will center on this address.">?</span>
+                </label>
+                <input type="text" class="form-control" id="addressInput" placeholder="Search for specific address" value="123 Main St, Your City, ST" onblur="handleAddressSearch()" onkeypress="if(event.key === 'Enter') { handleAddressSearch(); event.target.blur(); }">
+            </div>
+            
             <div class="controls-row">
                 <div class="control-group">
                     <label for="radius">
                         Radius from Address
-                        <span class="help-icon" title="Adjust the radius to see the circle update on the map below">?</span>
+                        <span class="help-icon" title="Set how many miles around your center address to analyze. Larger areas (15+ miles) give our data models more information to identify the best prospects.">?</span>
                     </label>
                     <div class="input-with-suffix">
                         <input type="number" id="radius" value="15" min="1" max="100">
@@ -877,7 +1047,7 @@
                 <div class="control-group">
                     <label for="industry">
                         Target Industry
-                        <span class="help-icon" title="Select the industry to target">?</span>
+                        <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
                     </label>
                     <select id="industry">
                         <option value="hvac">HVAC Services</option>
@@ -890,13 +1060,6 @@
                         <option value="painting">Painting Services</option>
                         <option value="remodeling">Home Remodeling</option>
                     </select>
-                </div>
-                
-                <div class="control-group">
-                    <label>&nbsp;</label>
-                    <button class="analyze-btn" onclick="analyzeCircle()">
-                        🎯 Analyze Area
-                    </button>
                 </div>
             </div>
             
@@ -912,6 +1075,12 @@
                     <input type="checkbox" id="pets">
                     <label for="pets">Has Pets</label>
                 </div>
+                
+                <div style="margin-left: auto;">
+                    <button class="analyze-btn" onclick="analyzeCircle()">
+                        🎯 Analyze Area
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -926,7 +1095,7 @@
                 <div class="control-group">
                     <label for="industryCustom">
                         Target Industry
-                        <span class="help-icon" title="Select the industry to target">?</span>
+                        <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
                     </label>
                     <select id="industryCustom">
                         <option value="hvac">HVAC Services</option>
@@ -960,7 +1129,7 @@
     
     <!-- Map Container -->
     <div class="map-container">
-        <img src="RadiusBomb.png" alt="Map" class="map-image" id="mapImage">
+        <img src="map.png" alt="Map" class="map-image" id="mapImage">
         <div class="heat-map-overlay" id="heatMapOverlay"></div>
     </div>
     
@@ -1079,10 +1248,10 @@
         function handleAddressSearch() {
             const address = document.getElementById('addressInput').value;
             if (!address) {
-                alert('Please enter an address first');
-                return;
+                return; // Silently return if empty
             }
-            console.log('Address searched:', address);
+            // In real implementation: geocode address and center map
+            console.log('Address updated, centering map:', address);
         }
         
         function switchMode(mode) {
