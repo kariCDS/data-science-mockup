@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Science - Draw Custom Area Mode</title>
+    <title>SendJim - Data Science Targeting</title>
     <style>
         * {
             margin: 0;
@@ -14,41 +14,31 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: #f5f5f5;
-            padding: 20px;
         }
         
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
+        .page-header {
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .header {
-            padding: 20px;
             border-bottom: 1px solid #e0e0e0;
-            background: white;
+            padding: 15px 20px;
         }
         
-        .header h1 {
+        .page-header h1 {
             font-size: 18px;
             color: #333;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .header h1::before {
+        .page-header h1::before {
             content: "📍";
         }
         
         .search-container {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         
         .search-container input {
@@ -70,6 +60,10 @@
             font-weight: 500;
         }
         
+        .search-container button:hover {
+            background: #0056b3;
+        }
+        
         .tabs {
             display: flex;
             gap: 0;
@@ -77,7 +71,7 @@
         }
         
         .tab {
-            padding: 12px 24px;
+            padding: 10px 20px;
             background: transparent;
             border: none;
             border-bottom: 3px solid transparent;
@@ -90,395 +84,1114 @@
             bottom: -2px;
         }
         
+        .tab:hover {
+            color: #333;
+            background: #f8f9fa;
+        }
+        
         .tab.active {
             color: #007bff;
             border-bottom-color: #007bff;
         }
         
-        /* Draw Mode Controls */
-        .draw-mode-banner {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .draw-mode-banner h3 {
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .exit-draw-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .exit-draw-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .drawing-toolbar {
+        /* Controls Panel */
+        .controls-panel {
             background: #f8f9fa;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 20px;
         }
         
-        .toolbar-section {
+        .callout-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .callout-box h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
             display: flex;
+            align-items: center;
             gap: 8px;
-            align-items: center;
-        }
-        
-        .toolbar-label {
-            font-size: 13px;
             font-weight: 600;
-            color: #555;
-            margin-right: 5px;
         }
         
-        .tool-btn {
-            padding: 8px 14px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            cursor: pointer;
+        .callout-box h3::before {
+            content: "⚡";
+            font-size: 18px;
+        }
+        
+        .callout-box p {
             font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .callout-box .tip {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s;
-            color: #555;
-            font-weight: 500;
         }
         
-        .tool-btn:hover {
+        .callout-box .tip::before {
+            content: "💡";
+        }
+        
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .mode-toggle-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .mode-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+            background: white;
+            transition: all 0.2s;
+            flex: 1;
+        }
+        
+        .mode-option:hover {
             border-color: #007bff;
             background: #e7f3ff;
-            color: #007bff;
         }
         
-        .tool-btn.active {
-            border-color: #007bff;
-            background: #007bff;
+        .mode-option.active {
+            border-color: #28a745;
+            background: #d4edda;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+        
+        .mode-option.recommended {
+            position: relative;
+        }
+        
+        .mode-option.recommended::after {
+            content: "RECOMMENDED";
+            position: absolute;
+            top: -8px;
+            right: 8px;
+            background: #28a745;
             color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            letter-spacing: 0.5px;
         }
         
-        .divider {
-            width: 1px;
-            height: 30px;
-            background: #ddd;
-            margin: 0 10px;
+        .mode-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
         }
         
-        .action-btn {
-            padding: 8px 16px;
+        .mode-option label {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .mode-option .mode-subtitle {
+            font-size: 11px;
+            font-weight: 400;
+            color: #666;
+            line-height: 1.3;
+        }
+        
+        .mode-option.active .mode-subtitle {
+            color: #155724;
+        }
+        
+        /* Circle Mode Controls */
+        .circle-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .circle-controls.hidden {
+            display: none;
+        }
+        
+        .controls-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .control-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .control-group input[type="number"],
+        .control-group select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .control-group input:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+        
+        .input-with-suffix {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-suffix {
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .qualifiers-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .qualifiers-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+        }
+        
+        .analyze-btn {
+            padding: 12px 30px;
             background: #28a745;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             transition: all 0.2s;
-        }
-        
-        .action-btn:hover {
-            background: #218838;
-            transform: translateY(-1px);
-        }
-        
-        .action-btn.secondary {
-            background: transparent;
-            border: 2px solid #007bff;
-            color: #007bff;
-        }
-        
-        .action-btn.secondary:hover {
-            background: #007bff;
-            color: white;
-        }
-        
-        .action-btn.danger {
-            background: transparent;
-            border: 2px solid #dc3545;
-            color: #dc3545;
-        }
-        
-        .action-btn.danger:hover {
-            background: #dc3545;
-            color: white;
-        }
-        
-        /* Instructions Panel */
-        .instructions-panel {
-            background: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 15px 20px;
-            margin: 20px;
-            border-radius: 6px;
-        }
-        
-        .instructions-panel h4 {
-            font-size: 14px;
-            color: #856404;
-            margin-bottom: 10px;
-            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
         
-        .instructions-panel ul {
-            list-style: none;
-            padding: 0;
+        .analyze-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
         }
         
-        .instructions-panel li {
+        /* Custom Shape Mode */
+        .custom-shape-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #007bff;
+        }
+        
+        .custom-shape-controls.hidden {
+            display: none;
+        }
+        
+        .custom-shape-message {
+            background: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .custom-shape-message h4 {
+            font-size: 14px;
+            color: #0056b3;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .custom-shape-message p {
             font-size: 13px;
-            color: #856404;
-            line-height: 1.8;
-            padding-left: 20px;
+            color: #0056b3;
+            line-height: 1.6;
+        }
+        
+        .help-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: help;
+            margin-left: 5px;
+        }
+        
+        /* Map Container */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 380px);
+            min-height: 500px;
+            background: #e5e3df;
+            overflow: hidden;
+        }
+        
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        /* Heat map overlay (shown after analysis) */
+        .heat-map-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, 
+                rgba(255, 87, 34, 0.4) 0%,
+                rgba(255, 152, 0, 0.3) 25%,
+                rgba(255, 193, 7, 0.2) 50%,
+                rgba(76, 175, 80, 0.1) 75%,
+                transparent 100%);
+            pointer-events: none;
+        }
+        
+        .heat-map-overlay.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px;
             position: relative;
         }
         
-        .instructions-panel li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        
-        /* Shape Info */
-        .shape-info-panel {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 15px 20px;
-            margin: 20px;
-            border-radius: 6px;
-        }
-        
-        .shape-info-panel h4 {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 12px;
+        .modal-header h2 {
+            font-size: 20px;
             font-weight: 600;
-        }
-        
-        .shape-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .shape-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
-        
-        .shape-item-info {
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .shape-icon {
+        .modal-header p {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
             width: 32px;
             height: 32px;
-            background: #007bff;
-            color: white;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        
-        .shape-details {
-            font-size: 13px;
-            color: #555;
-        }
-        
-        .shape-name {
-            font-weight: 600;
-            display: block;
-        }
-        
-        .shape-meta {
-            color: #999;
-            font-size: 12px;
-        }
-        
-        .shape-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .icon-btn {
-            width: 28px;
-            height: 28px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .stats-overview {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .stats-overview h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .total-stat {
+            font-size: 36px;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 5px;
+        }
+        
+        .total-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .insight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        
+        .insight-box h4 {
             font-size: 14px;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        
+        .insight-box p {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .tier-selection {
+            margin-bottom: 25px;
+        }
+        
+        .tier-selection h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .tier-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
             transition: all 0.2s;
         }
         
-        .icon-btn:hover {
+        .tier-option:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+        
+        .tier-option.selected {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .tier-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        
+        .tier-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        
+        .tier-icon {
+            font-size: 24px;
+            width: 40px;
+            text-align: center;
+        }
+        
+        .tier-details {
+            flex: 1;
+        }
+        
+        .tier-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .tier-description {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tier-count {
+            font-size: 18px;
+            font-weight: 700;
+            color: #007bff;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        .tier-option.selected .tier-count {
+            color: #28a745;
+        }
+        
+        .selection-summary {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .selection-summary h5 {
+            font-size: 13px;
+            color: #0056b3;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .selection-summary .selected-count {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        
+        .criteria-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .criteria-summary h4 {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .criteria-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .criteria-tag {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .criteria-tag.active {
             background: #007bff;
             color: white;
             border-color: #007bff;
         }
         
-        .icon-btn.danger:hover {
-            background: #dc3545;
-            border-color: #dc3545;
+        .modal-footer {
+            padding: 20px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-text {
+            background: transparent;
+            color: #666;
+            padding: 14px 24px;
+            flex: 0 0 auto;
+        }
+        
+        .btn-text:hover {
+            color: #333;
+            background: #e9ecef;
+        }
+
+        /* Loading Modal */
+        .loading-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .loading-modal h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .loading-modal p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Radius Bomb Map</h1>
-            
-            <div class="search-container">
-                <input type="text" value="123 Main St, Grand Rapids, MI" disabled>
-                <button disabled style="opacity: 0.6;">Search</button>
-            </div>
-            
-            <div class="tabs">
-                <button class="tab active">
-                    🎯 Data Science Targeting
-                </button>
-                <button class="tab">
-                    ⚙️ Standard (Manual Filters)
-                </button>
-            </div>
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Radius Bomb Map</h1>
+        
+        <div class="search-container">
+            <input type="text" id="addressInput" placeholder="Search for specific address">
+            <button onclick="handleAddressSearch()">Search</button>
         </div>
         
-        <div class="draw-mode-banner">
-            <h3>📐 Custom Area Drawing Mode Active</h3>
-            <button class="exit-draw-btn" onclick="exitDrawMode()">
-                ✓ Done Drawing
+        <div class="tabs">
+            <button class="tab active">
+                🎯 Data Science Targeting
+            </button>
+            <button class="tab">
+                ⚙️ Standard (Manual Filters)
             </button>
         </div>
-        
-        <div class="drawing-toolbar">
-            <div class="toolbar-section">
-                <span class="toolbar-label">Draw Tools:</span>
-                <button class="tool-btn active">
-                    ⬜ Rectangle
-                </button>
-                <button class="tool-btn">
-                    ⭕ Circle
-                </button>
-                <button class="tool-btn">
-                    📐 Polygon
-                </button>
-                <button class="tool-btn">
-                    ✏️ Freehand
-                </button>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <div class="toolbar-section">
-                <span class="toolbar-label">Edit:</span>
-                <button class="tool-btn">
-                    ✂️ Edit Shape
-                </button>
-                <button class="tool-btn">
-                    🗑️ Delete
-                </button>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <button class="action-btn">
-                🎯 Analyze This Area
-            </button>
-            
-            <button class="action-btn danger">
-                🔄 Clear All
-            </button>
+    </div>
+    
+    <!-- Controls Panel -->
+    <div class="controls-panel">
+        <div class="callout-box">
+            <h3>Powered by SendJim's Data Science Models</h3>
+            <p>Built from real buyer behavior. We analyze large areas to find homeowners most likely to hire you - so you don't have to guess.</p>
+            <div class="tip">Wider is Better! Our AI works best with larger areas (15+ miles). More data means we can find the truly hot prospects and filter out the rest.</div>
         </div>
         
-        <div class="instructions-panel">
-            <h4>💡 How to Draw Your Target Area</h4>
-            <ul>
-                <li>Select a drawing tool from the toolbar above</li>
-                <li>Click and drag on the map to create your custom shape</li>
-                <li>Draw multiple shapes to include non-contiguous areas</li>
-                <li>Use polygon tool to precisely trace neighborhood boundaries</li>
-                <li>Click "Analyze This Area" when ready to run the data science model</li>
-            </ul>
+        <!-- Mode Toggle -->
+        <div class="mode-toggle">
+            <span class="mode-toggle-label">Targeting Mode:</span>
+            <div class="mode-option recommended active" onclick="switchMode('circle')">
+                <input type="radio" name="mode" id="circleMode" checked>
+                <label for="circleMode">
+                    🎯 Smart Radius
+                    <span class="mode-subtitle">Best results with larger areas</span>
+                </label>
+            </div>
+            <div class="mode-option" onclick="switchMode('custom')">
+                <input type="radio" name="mode" id="customMode">
+                <label for="customMode">
+                    📐 Custom Area
+                    <span class="mode-subtitle">Advanced: Draw specific shapes</span>
+                </label>
+            </div>
         </div>
         
-        <div class="shape-info-panel">
-            <h4>Active Shapes (2)</h4>
-            <div class="shape-list">
-                <div class="shape-item">
-                    <div class="shape-item-info">
-                        <div class="shape-icon">⬜</div>
-                        <div class="shape-details">
-                            <span class="shape-name">Rectangle 1</span>
-                            <span class="shape-meta">~45 sq. miles</span>
-                        </div>
-                    </div>
-                    <div class="shape-actions">
-                        <button class="icon-btn" title="Edit">✏️</button>
-                        <button class="icon-btn" title="Zoom to">🔍</button>
-                        <button class="icon-btn danger" title="Delete">🗑️</button>
+        <!-- Circle Mode Controls -->
+        <div id="circleControls" class="circle-controls">
+            <div class="controls-row">
+                <div class="control-group">
+                    <label for="radius">
+                        Radius from Address
+                        <span class="help-icon" title="Adjust the radius to see the circle update on the map below">?</span>
+                    </label>
+                    <div class="input-with-suffix">
+                        <input type="number" id="radius" value="15" min="1" max="100">
+                        <span class="input-suffix">miles</span>
                     </div>
                 </div>
                 
-                <div class="shape-item">
-                    <div class="shape-item-info">
-                        <div class="shape-icon">⭕</div>
-                        <div class="shape-details">
-                            <span class="shape-name">Circle 1</span>
-                            <span class="shape-meta">~28 sq. miles</span>
-                        </div>
-                    </div>
-                    <div class="shape-actions">
-                        <button class="icon-btn" title="Edit">✏️</button>
-                        <button class="icon-btn" title="Zoom to">🔍</button>
-                        <button class="icon-btn danger" title="Delete">🗑️</button>
-                    </div>
+                <div class="control-group">
+                    <label for="industry">
+                        Target Industry
+                        <span class="help-icon" title="Select the industry to target">?</span>
+                    </label>
+                    <select id="industry">
+                        <option value="hvac">HVAC Services</option>
+                        <option value="plumbing">Plumbing Services</option>
+                        <option value="roofing">Roofing Services</option>
+                        <option value="landscaping">Landscaping Services</option>
+                        <option value="cleaning">Cleaning Services</option>
+                        <option value="pest-control">Pest Control</option>
+                        <option value="electrical">Electrical Services</option>
+                        <option value="painting">Painting Services</option>
+                        <option value="remodeling">Home Remodeling</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button class="analyze-btn" onclick="analyzeCircle()">
+                        🎯 Analyze Area
+                    </button>
+                </div>
+            </div>
+            
+            <div class="qualifiers-row">
+                <span class="qualifiers-label">Optional Qualifiers:</span>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="homeowner" checked>
+                    <label for="homeowner">Homeowners Only</label>
+                </div>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="pets">
+                    <label for="pets">Has Pets</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Shape Mode Controls -->
+        <div id="customControls" class="custom-shape-controls hidden">
+            <div class="custom-shape-message">
+                <h4>📐 Custom Shape Drawing Active</h4>
+                <p>Use the drawing tools on the map below to create your custom target area. When you finish drawing a shape, the analysis will run automatically.</p>
+            </div>
+            
+            <div class="controls-row">
+                <div class="control-group">
+                    <label for="industryCustom">
+                        Target Industry
+                        <span class="help-icon" title="Select the industry to target">?</span>
+                    </label>
+                    <select id="industryCustom">
+                        <option value="hvac">HVAC Services</option>
+                        <option value="plumbing">Plumbing Services</option>
+                        <option value="roofing">Roofing Services</option>
+                        <option value="landscaping">Landscaping Services</option>
+                        <option value="cleaning">Cleaning Services</option>
+                        <option value="pest-control">Pest Control</option>
+                        <option value="electrical">Electrical Services</option>
+                        <option value="painting">Painting Services</option>
+                        <option value="remodeling">Home Remodeling</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="qualifiers-row">
+                <span class="qualifiers-label">Optional Qualifiers:</span>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="homeownerCustom" checked>
+                    <label for="homeownerCustom">Homeowners Only</label>
+                </div>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="petsCustom">
+                    <label for="petsCustom">Has Pets</label>
                 </div>
             </div>
         </div>
     </div>
     
+    <!-- Map Container -->
+    <div class="map-container">
+        <img src="RadiusBomb.png" alt="Map" class="map-image" id="mapImage">
+        <div class="heat-map-overlay" id="heatMapOverlay"></div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal-overlay">
+        <div class="loading-modal">
+            <div class="spinner"></div>
+            <h3>Analyzing your target area...</h3>
+            <p>Running data science models to find the hottest prospects</p>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>✓ Analysis Complete!</h2>
+                <p>Select which tiers to include in your mailing campaign</p>
+                <button class="close-btn" onclick="closeResultsModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="stats-overview">
+                    <h3>Total Addresses Found</h3>
+                    <div class="total-stat">2,847</div>
+                    <div class="total-label">addresses in your target area</div>
+                </div>
+                
+                <div class="insight-box">
+                    <h4>💡 Data Science Insight</h4>
+                    <p>Your selected area shows 44% higher than average propensity for HVAC services. Peak likelihood found in homes valued $300k-$450k with strong seasonal buying patterns.</p>
+                </div>
+                
+                <div class="tier-selection">
+                    <h4>Select Target Tiers (Choose who receives your mailing)</h4>
+                    
+                    <div class="tier-option selected" onclick="toggleTier(this, 'very-hot')" data-count="627">
+                        <input type="checkbox" id="tierVeryHot" checked>
+                        <div class="tier-info">
+                            <div class="tier-icon">🔥</div>
+                            <div class="tier-details">
+                                <div class="tier-name">Very Hot Prospects</div>
+                                <div class="tier-description">Index 300+ • Highest conversion probability</div>
+                            </div>
+                        </div>
+                        <div class="tier-count">627</div>
+                    </div>
+                    
+                    <div class="tier-option selected" onclick="toggleTier(this, 'hot')" data-count="616">
+                        <input type="checkbox" id="tierHot" checked>
+                        <div class="tier-info">
+                            <div class="tier-icon">🌡️</div>
+                            <div class="tier-details">
+                                <div class="tier-name">Hot Prospects</div>
+                                <div class="tier-description">Index 200-299 • Strong conversion potential</div>
+                            </div>
+                        </div>
+                        <div class="tier-count">616</div>
+                    </div>
+                    
+                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798">
+                        <input type="checkbox" id="tierMedium">
+                        <div class="tier-info">
+                            <div class="tier-icon">📊</div>
+                            <div class="tier-details">
+                                <div class="tier-name">Medium Prospects</div>
+                                <div class="tier-description">Index 120-199 • Moderate conversion potential</div>
+                            </div>
+                        </div>
+                        <div class="tier-count">798</div>
+                    </div>
+                    
+                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806">
+                        <input type="checkbox" id="tierLow">
+                        <div class="tier-info">
+                            <div class="tier-icon">❄️</div>
+                            <div class="tier-details">
+                                <div class="tier-name">Lower Prospects</div>
+                                <div class="tier-description">Index <120 • Lower conversion probability</div>
+                            </div>
+                        </div>
+                        <div class="tier-count">806</div>
+                    </div>
+                    
+                    <div class="selection-summary">
+                        <h5>Selected for Mailing:</h5>
+                        <div class="selected-count" id="selectedCount">1,243 addresses</div>
+                    </div>
+                </div>
+                
+                <div class="criteria-summary">
+                    <h4>Search Criteria</h4>
+                    <div class="criteria-list">
+                        <span class="criteria-tag active" id="modeCriteria">Smart Radius - 15 miles</span>
+                        <span class="criteria-tag active">HVAC Services</span>
+                        <span class="criteria-tag active">Homeowners Only</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="sendMailingBtn" onclick="sendMailing()">
+                    📬 Send Mailing
+                </button>
+                <button class="btn btn-text" onclick="modifyCriteria()">
+                    ✏️ Modify Search
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        function exitDrawMode() {
-            if (confirm('Exit drawing mode and analyze your custom area?')) {
-                alert('Would show loading modal then results modal');
+        let currentMode = 'circle';
+        let selectedTiers = new Set(['very-hot', 'hot']);
+        
+        function handleAddressSearch() {
+            const address = document.getElementById('addressInput').value;
+            if (!address) {
+                alert('Please enter an address first');
+                return;
+            }
+            console.log('Address searched:', address);
+        }
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            document.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            if (mode === 'circle') {
+                document.getElementById('circleControls').classList.remove('hidden');
+                document.getElementById('customControls').classList.add('hidden');
+            } else {
+                document.getElementById('circleControls').classList.add('hidden');
+                document.getElementById('customControls').classList.remove('hidden');
             }
         }
+        
+        function analyzeCircle() {
+            const address = document.getElementById('addressInput').value;
+            if (!address) {
+                alert('Please enter an address first');
+                return;
+            }
+            
+            const radius = document.getElementById('radius').value;
+            document.getElementById('modeCriteria').textContent = `Smart Radius - ${radius} miles`;
+            
+            runAnalysis();
+        }
+        
+        function simulateCustomShapeDrawComplete() {
+            document.getElementById('modeCriteria').textContent = 'Custom Area';
+            runAnalysis();
+        }
+        
+        function runAnalysis() {
+            showLoadingModal();
+            
+            setTimeout(() => {
+                hideLoadingModal();
+                showResultsModal();
+            }, 2000);
+        }
+        
+        function toggleTier(element, tierId) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                element.classList.add('selected');
+                selectedTiers.add(tierId);
+            } else {
+                element.classList.remove('selected');
+                selectedTiers.delete(tierId);
+            }
+            
+            updateSelectedCount();
+        }
+        
+        function updateSelectedCount() {
+            let total = 0;
+            document.querySelectorAll('.tier-option.selected').forEach(tier => {
+                total += parseInt(tier.dataset.count);
+            });
+            
+            document.getElementById('selectedCount').textContent = total.toLocaleString() + ' addresses';
+            document.getElementById('sendMailingBtn').disabled = total === 0;
+        }
+        
+        function showLoadingModal() {
+            document.getElementById('loadingModal').classList.add('show');
+        }
+        
+        function hideLoadingModal() {
+            document.getElementById('loadingModal').classList.remove('show');
+        }
+        
+        function showResultsModal() {
+            document.getElementById('resultsModal').classList.add('show');
+            updateSelectedCount();
+        }
+        
+        function closeResultsModal() {
+            document.getElementById('resultsModal').classList.remove('show');
+            document.getElementById('heatMapOverlay').classList.add('show');
+        }
+        
+        function sendMailing() {
+            const selectedCount = document.getElementById('selectedCount').textContent;
+            alert(`Proceeding to campaign setup with ${selectedCount}!`);
+            // This would redirect to your existing campaign flow
+            closeResultsModal();
+        }
+        
+        function modifyCriteria() {
+            closeResultsModal();
+            document.getElementById('heatMapOverlay').classList.remove('show');
+        }
+        
+        // Demo: Auto-trigger custom shape analysis
+        window.addEventListener('click', function demoCustomShape(e) {
+            if (currentMode === 'custom' && e.target.classList.contains('mode-option')) {
+                setTimeout(() => {
+                    if (currentMode === 'custom' && confirm('Simulate drawing a custom shape and auto-running analysis?')) {
+                        simulateCustomShapeDrawComplete();
+                    }
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
