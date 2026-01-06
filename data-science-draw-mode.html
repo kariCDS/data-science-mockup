@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science - Draw Custom Area Mode</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header h1::before {
+            content: "📍";
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-container button {
+            padding: 10px 30px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+            position: relative;
+            bottom: -2px;
+        }
+        
+        .tab.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        
+        /* Draw Mode Controls */
+        .draw-mode-banner {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .draw-mode-banner h3 {
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .exit-draw-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .exit-draw-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .drawing-toolbar {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .toolbar-section {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .toolbar-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-right: 5px;
+        }
+        
+        .tool-btn {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .tool-btn:hover {
+            border-color: #007bff;
+            background: #e7f3ff;
+            color: #007bff;
+        }
+        
+        .tool-btn.active {
+            border-color: #007bff;
+            background: #007bff;
+            color: white;
+        }
+        
+        .divider {
+            width: 1px;
+            height: 30px;
+            background: #ddd;
+            margin: 0 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .action-btn.secondary {
+            background: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .action-btn.danger {
+            background: transparent;
+            border: 2px solid #dc3545;
+            color: #dc3545;
+        }
+        
+        .action-btn.danger:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Instructions Panel */
+        .instructions-panel {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px;
+            border-radius: 6px;
+        }
+        
+        .instructions-panel h4 {
+            font-size: 14px;
+            color: #856404;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .instructions-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instructions-panel li {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .instructions-panel li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        /* Shape Info */
+        .shape-info-panel {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px 20px;
+            margin: 20px;
+            border-radius: 6px;
+        }
+        
+        .shape-info-panel h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .shape-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .shape-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .shape-item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .shape-icon {
+            width: 32px;
+            height: 32px;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .shape-details {
+            font-size: 13px;
+            color: #555;
+        }
+        
+        .shape-name {
+            font-weight: 600;
+            display: block;
+        }
+        
+        .shape-meta {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .shape-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .icon-btn {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .icon-btn:hover {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .icon-btn.danger:hover {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Radius Bomb Map</h1>
+            
+            <div class="search-container">
+                <input type="text" value="123 Main St, Grand Rapids, MI" disabled>
+                <button disabled style="opacity: 0.6;">Search</button>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active">
+                    🎯 Data Science Targeting
+                </button>
+                <button class="tab">
+                    ⚙️ Standard (Manual Filters)
+                </button>
+            </div>
+        </div>
+        
+        <div class="draw-mode-banner">
+            <h3>📐 Custom Area Drawing Mode Active</h3>
+            <button class="exit-draw-btn" onclick="exitDrawMode()">
+                ✓ Done Drawing
+            </button>
+        </div>
+        
+        <div class="drawing-toolbar">
+            <div class="toolbar-section">
+                <span class="toolbar-label">Draw Tools:</span>
+                <button class="tool-btn active">
+                    ⬜ Rectangle
+                </button>
+                <button class="tool-btn">
+                    ⭕ Circle
+                </button>
+                <button class="tool-btn">
+                    📐 Polygon
+                </button>
+                <button class="tool-btn">
+                    ✏️ Freehand
+                </button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="toolbar-section">
+                <span class="toolbar-label">Edit:</span>
+                <button class="tool-btn">
+                    ✂️ Edit Shape
+                </button>
+                <button class="tool-btn">
+                    🗑️ Delete
+                </button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <button class="action-btn">
+                🎯 Analyze This Area
+            </button>
+            
+            <button class="action-btn danger">
+                🔄 Clear All
+            </button>
+        </div>
+        
+        <div class="instructions-panel">
+            <h4>💡 How to Draw Your Target Area</h4>
+            <ul>
+                <li>Select a drawing tool from the toolbar above</li>
+                <li>Click and drag on the map to create your custom shape</li>
+                <li>Draw multiple shapes to include non-contiguous areas</li>
+                <li>Use polygon tool to precisely trace neighborhood boundaries</li>
+                <li>Click "Analyze This Area" when ready to run the data science model</li>
+            </ul>
+        </div>
+        
+        <div class="shape-info-panel">
+            <h4>Active Shapes (2)</h4>
+            <div class="shape-list">
+                <div class="shape-item">
+                    <div class="shape-item-info">
+                        <div class="shape-icon">⬜</div>
+                        <div class="shape-details">
+                            <span class="shape-name">Rectangle 1</span>
+                            <span class="shape-meta">~45 sq. miles</span>
+                        </div>
+                    </div>
+                    <div class="shape-actions">
+                        <button class="icon-btn" title="Edit">✏️</button>
+                        <button class="icon-btn" title="Zoom to">🔍</button>
+                        <button class="icon-btn danger" title="Delete">🗑️</button>
+                    </div>
+                </div>
+                
+                <div class="shape-item">
+                    <div class="shape-item-info">
+                        <div class="shape-icon">⭕</div>
+                        <div class="shape-details">
+                            <span class="shape-name">Circle 1</span>
+                            <span class="shape-meta">~28 sq. miles</span>
+                        </div>
+                    </div>
+                    <div class="shape-actions">
+                        <button class="icon-btn" title="Edit">✏️</button>
+                        <button class="icon-btn" title="Zoom to">🔍</button>
+                        <button class="icon-btn danger" title="Delete">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function exitDrawMode() {
+            if (confirm('Exit drawing mode and analyze your custom area?')) {
+                alert('Would show loading modal then results modal');
+            }
+        }
+    </script>
+</body>
+</html>
