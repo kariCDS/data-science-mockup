@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendJim - Data Science Targeting (Working Modal)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header h1::before {
+            content: "📍";
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-container button {
+            padding: 10px 30px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .search-container button:hover {
+            background: #0056b3;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.2s;
+            position: relative;
+            bottom: -2px;
+        }
+        
+        .tab:hover {
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .tab.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+            background: transparent;
+        }
+        
+        /* Controls Section */
+        .controls-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .callout-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .callout-box h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .callout-box h3::before {
+            content: "⚡";
+            font-size: 18px;
+        }
+        
+        .callout-box p {
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.95;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .control-group {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .control-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        
+        .control-group select,
+        .control-group input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+        
+        .input-suffix {
+            display: inline-block;
+            margin-left: 5px;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .qualifiers-row {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .qualifiers-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            white-space: nowrap;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+        }
+        
+        .help-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 16px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: help;
+            margin-left: 5px;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-header p {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .stat-card.highlight {
+            background: linear-gradient(135deg, #e7f3ff 0%, #f0f8ff 100%);
+            border-left-color: #28a745;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .stat-subtext {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .insight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        
+        .insight-box h4 {
+            font-size: 14px;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        
+        .insight-box p {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .score-distribution {
+            margin-bottom: 25px;
+        }
+        
+        .score-distribution h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .score-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .score-label {
+            width: 80px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .score-bar-track {
+            flex: 1;
+            height: 24px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .score-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #28a745, #20c997);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            transition: width 0.5s ease;
+            border-radius: 12px;
+        }
+        
+        .criteria-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .criteria-summary h4 {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .criteria-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .criteria-tag {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .criteria-tag.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .modal-footer {
+            padding: 20px 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+        
+        .btn-secondary:hover {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-text {
+            background: transparent;
+            color: #666;
+            padding: 12px 16px;
+            flex: 0 0 auto;
+        }
+        
+        .btn-text:hover {
+            color: #333;
+            background: #e9ecef;
+        }
+
+        /* Loading Modal */
+        .loading-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .loading-modal img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .loading-modal h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .loading-modal p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Radius Bomb Map</h1>
+            
+            <div class="search-container">
+                <input type="text" id="addressInput" placeholder="Search for specific address">
+                <button onclick="handleAddressSearch()">Search</button>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('data-science')">
+                    🎯 Data Science Targeting
+                </button>
+                <button class="tab" onclick="switchTab('standard')">
+                    ⚙️ Standard (Manual Filters)
+                </button>
+            </div>
+        </div>
+        
+        <!-- DATA SCIENCE MODE -->
+        <div id="data-science-content" class="controls-section">
+            <div class="callout-box">
+                <h3>Powered by SendJim's Data Science Models</h3>
+                <p>Built from real buyer behavior. We analyze large areas to find homeowners most likely to hire you - so you don't have to guess.</p>
+            </div>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="radius">
+                        Radius from Address
+                        <span class="help-icon" title="Default is 15 miles. Adjust to search larger or smaller areas.">?</span>
+                    </label>
+                    <div>
+                        <input type="number" id="radius" value="15" min="1" max="100" onchange="handleCriteriaChange()">
+                        <span class="input-suffix">miles</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="industry">
+                        Target Industry
+                        <span class="help-icon" title="Change this if targeting a different service type">?</span>
+                    </label>
+                    <select id="industry" onchange="handleCriteriaChange()">
+                        <option value="hvac">HVAC Services</option>
+                        <option value="plumbing">Plumbing Services</option>
+                        <option value="roofing">Roofing Services</option>
+                        <option value="landscaping">Landscaping Services</option>
+                        <option value="cleaning">Cleaning Services</option>
+                        <option value="pest-control">Pest Control</option>
+                        <option value="electrical">Electrical Services</option>
+                        <option value="painting">Painting Services</option>
+                        <option value="remodeling">Home Remodeling</option>
+                    </select>
+                </div>
+                
+                <div class="control-group" style="display: flex; align-items: center; justify-content: center;">
+                    <button onclick="toggleDrawMode()" style="padding: 10px 20px; background: transparent; border: 2px solid #007bff; color: #007bff; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s;">
+                        📐 Draw Custom Area
+                    </button>
+                </div>
+            </div>
+            
+            <div class="qualifiers-row">
+                <span class="qualifiers-label">Optional Qualifiers:</span>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="homeowner" checked onchange="handleCriteriaChange()">
+                    <label for="homeowner">Homeowners Only</label>
+                </div>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="pets" onchange="handleCriteriaChange()">
+                    <label for="pets">Has Pets</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- STANDARD MODE -->
+        <div id="standard-content" class="controls-section" style="display: none;">
+            <p>Standard mode content...</p>
+        </div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal-overlay">
+        <div class="loading-modal">
+            <div class="spinner"></div>
+            <h3>Jim is analyzing your target area...</h3>
+            <p>Running data science models on your selected region</p>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>✓ Found 2,847 Addresses!</h2>
+                <p>Your data science analysis is complete. Ready to target high-propensity prospects.</p>
+                <button class="close-btn" onclick="closeResultsModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-card highlight">
+                        <div class="stat-label">Total Addresses</div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-subtext">in target area</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Avg. Propensity</div>
+                        <div class="stat-value">73%</div>
+                        <div class="stat-subtext">high confidence</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">High Propensity</div>
+                        <div class="stat-value">1,243</div>
+                        <div class="stat-subtext">80%+ score</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Medium Propensity</div>
+                        <div class="stat-value">982</div>
+                        <div class="stat-subtext">60-79% score</div>
+                    </div>
+                </div>
+                
+                <div class="insight-box">
+                    <h4>💡 Data Science Insight</h4>
+                    <p>Your selected area shows 44% higher than average propensity for HVAC services. Peak likelihood found in homes valued $300k-$450k with strong seasonal buying patterns.</p>
+                </div>
+                
+                <div class="score-distribution">
+                    <h4>Score Distribution</h4>
+                    <div class="score-bar-item">
+                        <div class="score-label">90-100%</div>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: 22%;">627</div>
+                        </div>
+                    </div>
+                    <div class="score-bar-item">
+                        <div class="score-label">80-89%</div>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: 22%;">616</div>
+                        </div>
+                    </div>
+                    <div class="score-bar-item">
+                        <div class="score-label">70-79%</div>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: 28%;">798</div>
+                        </div>
+                    </div>
+                    <div class="score-bar-item">
+                        <div class="score-label">60-69%</div>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: 21%;">592</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="criteria-summary">
+                    <h4>Applied Criteria</h4>
+                    <div class="criteria-list">
+                        <span class="criteria-tag active">15 mile radius</span>
+                        <span class="criteria-tag active">HVAC Services</span>
+                        <span class="criteria-tag active">Homeowners Only</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="sendMailing()">
+                    📬 Send Mailing!
+                </button>
+                <button class="btn btn-secondary" onclick="exportList()">
+                    📊 Export List
+                </button>
+                <button class="btn btn-text" onclick="modifyCriteria()">
+                    ✏️ Modify
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tabName === 'data-science') {
+                document.getElementById('data-science-content').style.display = 'block';
+                document.getElementById('standard-content').style.display = 'none';
+            } else {
+                document.getElementById('data-science-content').style.display = 'none';
+                document.getElementById('standard-content').style.display = 'block';
+            }
+        }
+        
+        function handleAddressSearch() {
+            const address = document.getElementById('addressInput').value;
+            if (address) {
+                showLoadingModal();
+                setTimeout(() => {
+                    hideLoadingModal();
+                    showResultsModal();
+                }, 2000);
+            }
+        }
+        
+        function handleCriteriaChange() {
+            const address = document.getElementById('addressInput').value;
+            if (address) {
+                showLoadingModal();
+                setTimeout(() => {
+                    hideLoadingModal();
+                    showResultsModal();
+                }, 1500);
+            }
+        }
+        
+        function toggleDrawMode() {
+            alert('This would switch to draw mode');
+        }
+        
+        function showLoadingModal() {
+            document.getElementById('loadingModal').classList.add('show');
+        }
+        
+        function hideLoadingModal() {
+            document.getElementById('loadingModal').classList.remove('show');
+        }
+        
+        function showResultsModal() {
+            document.getElementById('resultsModal').classList.add('show');
+        }
+        
+        function closeResultsModal() {
+            document.getElementById('resultsModal').classList.remove('show');
+        }
+        
+        function sendMailing() {
+            alert('Proceed to campaign creation with these 2,847 addresses');
+            closeResultsModal();
+        }
+        
+        function exportList() {
+            alert('Export addresses to CSV with propensity scores');
+        }
+        
+        function modifyCriteria() {
+            closeResultsModal();
+        }
+    </script>
+</body>
+</html>
