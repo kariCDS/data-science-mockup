@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SendJim - Data Science Targeting</title>
+    <title>SendJim - Precision Targeting (Beta)</title>
     <style>
         :root {
             --background-color: #fbf9fa;
@@ -438,7 +438,7 @@
         
         .analyze-btn {
             padding: 8px 24px;
-            background: #1ab394;
+            background: var(--primary-color);
             color: white;
             border: none;
             border-radius: 4px;
@@ -453,9 +453,9 @@
         }
         
         .analyze-btn:hover {
-            background: #18a689;
+            background: #0056b3;
             transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(26, 179, 148, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 122, 254, 0.3);
         }
         
         /* Custom Shape Mode */
@@ -989,16 +989,16 @@
             <div style="display: flex; align-items: start; gap: 15px;">
                 <div style="font-size: 24px;">📋</div>
                 <div style="flex: 1;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">MOCKUP FOR REVIEW</h3>
+                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">BETA MOCKUP FOR REVIEW</h3>
                     <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5; opacity: 0.95;">
-                        This is an interactive mockup of the new "Data Science Targeting" feature for Radius Bomb. Please provide feedback on:
+                        This is an interactive mockup of our new "Precision Targeting" feature for Radius Bomb. This beta feature will initially release to select customers. Please provide feedback on:
                     </p>
                     <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
-                        <li>Overall concept and messaging</li>
+                        <li><strong>Feature name:</strong> "Precision Targeting" vs "Data Science Targeting" - which resonates better?</li>
+                        <li>Overall concept and messaging (is it clear what this does and why it's valuable?)</li>
                         <li>User flow (address → radius → industry → analyze → tier selection → send)</li>
-                        <li>Tier selection approach (Very Hot, Hot, Medium, Low)</li>
-                        <li>Color scheme and visual design</li>
-                        <li>Clarity of guidance and help text</li>
+                        <li>Tier selection approach (Very Hot, Hot, Medium, Low) and warning states</li>
+                        <li>Beta positioning and credibility of messaging</li>
                         <li><strong>Try different radius values:</strong> &lt;3 miles (🚨 critical red warning), 3-5 miles (⚠️ yellow warning), 5-10 miles (low results), 10-15 miles (decent), 15+ miles (best)</li>
                     </ul>
                 </div>
@@ -1019,7 +1019,7 @@
         
         <div class="tabs">
             <button class="tab active">
-                Data Science Targeting
+                Precision Targeting (Beta)
             </button>
             <button class="tab">
                 Standard (Manual Filters)
@@ -1030,9 +1030,9 @@
     <!-- Controls Panel -->
     <div class="controls-panel">
         <div class="callout-box">
-            <h3>Powered by SendJim's Data Science Models</h3>
-            <p>Built from real buyer behavior. We analyze large areas to find homeowners most likely to hire you.</p>
-            <div class="tip">Wider is Better: Our data models work best with larger areas (15+ miles). More data means better targeting.</div>
+            <h3>Precision Targeting: Powered by Buyer Behavior Data</h3>
+            <p>Our data experts analyzed millions of home service transactions to identify patterns in buyer behavior. This tool applies those insights to find homeowners most likely to need your services.</p>
+            <div class="tip">🧪 Beta Feature: We're refining this approach and value your feedback! <a href="#" onclick="showBetaFeedback(); return false;" style="color: white; text-decoration: underline; font-weight: 600;">Share your feedback</a> • Wider is Better: Larger search areas (15+ miles) give our models more data to find the best prospects.</div>
         </div>
         
         <!-- Mode Toggle -->
@@ -1590,10 +1590,33 @@
         }
         
         function sendMailing() {
-            const selectedCount = document.getElementById('selectedCount').textContent;
-            alert(`Proceeding to campaign setup with ${selectedCount}!`);
-            // This would redirect to your existing campaign flow
+            const selectedCount = document.getElementById('selectedCountFooter').textContent;
             closeResultsModal();
+            
+            // Show success + feedback request
+            setTimeout(() => {
+                const feedback = confirm(
+                    `✓ Mailing sent to ${selectedCount}!\n\n` +
+                    `🧪 BETA FEEDBACK REQUEST:\n` +
+                    `This is a new feature and we value your input.\n\n` +
+                    `Would you like to share feedback about your experience?\n\n` +
+                    `(You can also provide feedback anytime by clicking the "?" help icon)`
+                );
+                
+                if (feedback) {
+                    alert(
+                        'Thank you! Please email your feedback to:\n\n' +
+                        'beta-feedback@sendjim.com\n\n' +
+                        'Include:\n' +
+                        '• Was "Precision Targeting" easy to understand?\n' +
+                        '• Did the tier selection make sense?\n' +
+                        '• How did results compare to your usual targeting?\n' +
+                        '• Any suggestions for improvement?'
+                    );
+                }
+            }, 300);
+            
+            // This would redirect to your existing campaign flow
         }
         
         function modifyCriteria() {
@@ -1623,6 +1646,21 @@
         
         function switchToDataScience() {
             document.querySelectorAll('.tab')[0].click();
+        }
+        
+        function showBetaFeedback() {
+            alert(
+                '🧪 PRECISION TARGETING BETA FEEDBACK\n\n' +
+                'Thank you for being a beta tester!\n\n' +
+                'Please email your feedback to: beta-feedback@sendjim.com\n\n' +
+                'We especially want to know:\n' +
+                '• Does "Precision Targeting" clearly describe this feature?\n' +
+                '  (vs "Data Science Targeting" or other names?)\n' +
+                '• Is the tier selection (Very Hot, Hot, etc.) intuitive?\n' +
+                '• How do results compare to your usual targeting methods?\n' +
+                '• What would make this feature more valuable to you?\n\n' +
+                'Your input helps us improve before wider release!'
+            );
         }
         
         function dismissBanner() {
