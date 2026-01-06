@@ -16,6 +16,11 @@
             --warning-color: #da6612;
         }
         
+        #instructionBanner button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -133,7 +138,6 @@
             border-bottom: 1px solid #e7eaec;
             background: var(--surface-color);
             padding: 0 20px;
-            overflow-x: auto;
         }
         
         @media (max-width: 768px) {
@@ -154,6 +158,7 @@
             transition: all 0.2s;
             position: relative;
             bottom: -1px;
+            white-space: nowrap;
         }
         
         .tab:hover {
@@ -191,15 +196,7 @@
         .callout-box h3 {
             font-size: 15px;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             font-weight: 600;
-        }
-        
-        .callout-box h3::before {
-            content: "⚡";
-            font-size: 18px;
         }
         
         .callout-box p {
@@ -217,10 +214,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-        
-        .callout-box .tip::before {
-            content: "💡";
         }
         
         /* Mode Toggle */
@@ -260,21 +253,21 @@
             cursor: pointer;
             padding: 10px 18px;
             border-radius: 6px;
-            border: 2px solid #ddd;
+            border: 2px solid #d1d5db;
             background: white;
             transition: all 0.2s;
             flex: 1;
         }
         
         .mode-option:hover {
-            border-color: #007bff;
-            background: #e7f3ff;
+            border-color: #1ab394;
+            background: #f0fdf9;
         }
         
         .mode-option.active {
-            border-color: #28a745;
-            background: #d4edda;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+            border-color: #1ab394;
+            background: #f0fdf9;
+            box-shadow: 0 2px 8px rgba(26, 179, 148, 0.15);
         }
         
         .mode-option.recommended {
@@ -286,7 +279,7 @@
             position: absolute;
             top: -8px;
             right: 8px;
-            background: #28a745;
+            background: #1ab394;
             color: white;
             font-size: 9px;
             font-weight: 700;
@@ -470,7 +463,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            border: 2px solid #007bff;
+            border: 2px solid #e0e0e0;
         }
         
         .custom-shape-controls.hidden {
@@ -478,16 +471,26 @@
         }
         
         .custom-shape-message {
-            background: #e7f3ff;
-            border-left: 4px solid #007bff;
-            padding: 15px;
-            border-radius: 6px;
+            background: #f8f9fa;
+            border-left: 3px solid var(--primary-color);
+            padding: 12px 15px;
+            border-radius: 4px;
             margin-bottom: 15px;
         }
         
         .custom-shape-message h4 {
-            font-size: 14px;
-            color: #0056b3;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .custom-shape-message p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
             margin-bottom: 8px;
             font-weight: 600;
         }
@@ -641,34 +644,27 @@
         }
         
         .modal-header {
-            background: linear-gradient(135deg, #1ab394 0%, #18a689 100%);
-            color: white;
+            background: var(--surface-color);
+            color: #333;
             padding: 25px;
             position: relative;
+            border-bottom: 3px solid #1ab394;
         }
         
         .modal-header h2 {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .modal-header p {
-            font-size: 14px;
-            opacity: 0.95;
-            line-height: 1.5;
+            margin-bottom: 0;
+            color: #333;
         }
         
         .close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.2);
+            background: transparent;
             border: none;
-            color: white;
+            color: #999;
             font-size: 24px;
             width: 32px;
             height: 32px;
@@ -677,11 +673,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         
         .close-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #f0f0f0;
+            color: #333;
         }
         
         .modal-body {
@@ -769,13 +766,17 @@
         }
         
         .tier-option:hover {
-            border-color: #007bff;
+            border-color: #1ab394;
             background: #f8f9fa;
         }
         
         .tier-option.selected {
-            border-color: #28a745;
-            background: #d4edda;
+            border-color: #1ab394;
+            background: #f0fdf9;
+        }
+        
+        .tier-option[data-tier="very-hot"] {
+            border-left: 4px solid #1ab394;
         }
         
         .tier-option input[type="checkbox"] {
@@ -887,11 +888,16 @@
             background: #f8f9fa;
             border-top: 1px solid #e0e0e0;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 0;
         }
         
         @media (max-width: 768px) {
             .modal-footer {
+                padding: 15px;
+            }
+            
+            .modal-footer > div:last-child {
                 flex-direction: column;
             }
             
@@ -977,6 +983,32 @@
     </style>
 </head>
 <body>
+    <!-- Instruction Banner -->
+    <div id="instructionBanner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-bottom: 3px solid #5a67d8; position: relative;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; align-items: start; gap: 15px;">
+                <div style="font-size: 24px;">📋</div>
+                <div style="flex: 1;">
+                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">MOCKUP FOR REVIEW</h3>
+                    <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5; opacity: 0.95;">
+                        This is an interactive mockup of the new "Data Science Targeting" feature for Radius Bomb. Please provide feedback on:
+                    </p>
+                    <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+                        <li>Overall concept and messaging</li>
+                        <li>User flow (address → radius → industry → analyze → tier selection → send)</li>
+                        <li>Tier selection approach (Very Hot, Hot, Medium, Low)</li>
+                        <li>Color scheme and visual design</li>
+                        <li>Clarity of guidance and help text</li>
+                        <li><strong>Try different radius values:</strong> &lt;3 miles (🚨 critical red warning), 3-5 miles (⚠️ yellow warning), 5-10 miles (low results), 10-15 miles (decent), 15+ miles (best)</li>
+                    </ul>
+                </div>
+                <button onclick="dismissBanner()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; transition: all 0.2s;">
+                    Dismiss ✕
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Page Header -->
     <div class="page-header">
         <div class="panel-heading-custom">
@@ -987,10 +1019,10 @@
         
         <div class="tabs">
             <button class="tab active">
-                🎯 Data Science Targeting
+                Data Science Targeting
             </button>
             <button class="tab">
-                ⚙️ Standard (Manual Filters)
+                Standard (Manual Filters)
             </button>
         </div>
     </div>
@@ -999,8 +1031,8 @@
     <div class="controls-panel">
         <div class="callout-box">
             <h3>Powered by SendJim's Data Science Models</h3>
-            <p>Built from real buyer behavior. We analyze large areas to find homeowners most likely to hire you - so you don't have to guess.</p>
-            <div class="tip">Wider is Better! Our AI works best with larger areas (15+ miles). More data means we can find the truly hot prospects and filter out the rest.</div>
+            <p>Built from real buyer behavior. We analyze large areas to find homeowners most likely to hire you.</p>
+            <div class="tip">Wider is Better: Our data models work best with larger areas (15+ miles). More data means better targeting.</div>
         </div>
         
         <!-- Mode Toggle -->
@@ -1009,14 +1041,14 @@
             <div class="mode-option recommended active" onclick="switchMode('circle')">
                 <input type="radio" name="mode" id="circleMode" checked>
                 <label for="circleMode">
-                    🎯 Smart Radius
-                    <span class="mode-subtitle">Best results with larger areas</span>
+                    Smart Radius
+                    <span class="mode-subtitle">Recommended: Best results with larger areas</span>
                 </label>
             </div>
             <div class="mode-option" onclick="switchMode('custom')">
                 <input type="radio" name="mode" id="customMode">
                 <label for="customMode">
-                    📐 Custom Area
+                    Custom Area
                     <span class="mode-subtitle">Advanced: Draw specific shapes</span>
                 </label>
             </div>
@@ -1050,15 +1082,24 @@
                         <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
                     </label>
                     <select id="industry">
-                        <option value="hvac">HVAC Services</option>
-                        <option value="plumbing">Plumbing Services</option>
-                        <option value="roofing">Roofing Services</option>
-                        <option value="landscaping">Landscaping Services</option>
-                        <option value="cleaning">Cleaning Services</option>
+                        <option value="" disabled>- Choose Industry -</option>
+                        <option value="decking">Decking</option>
+                        <option value="door-window">Door/window Replacement</option>
+                        <option value="dumpster">Dumpster/Junk Removal</option>
+                        <option value="exterior-cleaning">Exterior Cleaning</option>
+                        <option value="exterior-lighting">Exterior Lighting</option>
+                        <option value="fencing">Fencing</option>
+                        <option value="flooring">Flooring</option>
+                        <option value="home-repair">Home Repair/Improvement</option>
+                        <option value="hvac-plumbing-electric">HVAC/Plumbing/Electric</option>
+                        <option value="interior-cleaning">Interior Cleaning</option>
+                        <option value="lawn-care">Lawn Care/Landscaping</option>
+                        <option value="other">Other</option>
+                        <option value="painting-garage">Painting/Garage Flooring</option>
                         <option value="pest-control">Pest Control</option>
-                        <option value="electrical">Electrical Services</option>
-                        <option value="painting">Painting Services</option>
-                        <option value="remodeling">Home Remodeling</option>
+                        <option value="pet-care">Pet Care</option>
+                        <option value="restoration">Restoration</option>
+                        <option value="roofing" selected>Roofing</option>
                     </select>
                 </div>
             </div>
@@ -1078,7 +1119,7 @@
                 
                 <div style="margin-left: auto;">
                     <button class="analyze-btn" onclick="analyzeCircle()">
-                        🎯 Analyze Area
+                        Analyze Area
                     </button>
                 </div>
             </div>
@@ -1087,7 +1128,7 @@
         <!-- Custom Shape Mode Controls -->
         <div id="customControls" class="custom-shape-controls hidden">
             <div class="custom-shape-message">
-                <h4>📐 Custom Shape Drawing Active</h4>
+                <h4>Custom Shape Drawing Active</h4>
                 <p>Use the drawing tools on the map below to create your custom target area. When you finish drawing a shape, the analysis will run automatically.</p>
             </div>
             
@@ -1098,15 +1139,24 @@
                         <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
                     </label>
                     <select id="industryCustom">
-                        <option value="hvac">HVAC Services</option>
-                        <option value="plumbing">Plumbing Services</option>
-                        <option value="roofing">Roofing Services</option>
-                        <option value="landscaping">Landscaping Services</option>
-                        <option value="cleaning">Cleaning Services</option>
+                        <option value="" disabled>- Choose Industry -</option>
+                        <option value="decking">Decking</option>
+                        <option value="door-window">Door/window Replacement</option>
+                        <option value="dumpster">Dumpster/Junk Removal</option>
+                        <option value="exterior-cleaning">Exterior Cleaning</option>
+                        <option value="exterior-lighting">Exterior Lighting</option>
+                        <option value="fencing">Fencing</option>
+                        <option value="flooring">Flooring</option>
+                        <option value="home-repair">Home Repair/Improvement</option>
+                        <option value="hvac-plumbing-electric">HVAC/Plumbing/Electric</option>
+                        <option value="interior-cleaning">Interior Cleaning</option>
+                        <option value="lawn-care">Lawn Care/Landscaping</option>
+                        <option value="other">Other</option>
+                        <option value="painting-garage">Painting/Garage Flooring</option>
                         <option value="pest-control">Pest Control</option>
-                        <option value="electrical">Electrical Services</option>
-                        <option value="painting">Painting Services</option>
-                        <option value="remodeling">Home Remodeling</option>
+                        <option value="pet-care">Pet Care</option>
+                        <option value="restoration">Restoration</option>
+                        <option value="roofing" selected>Roofing</option>
                     </select>
                 </div>
             </div>
@@ -1124,6 +1174,22 @@
                     <label for="petsCustom">Has Pets</label>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Standard Mode Content (hidden by default) -->
+    <div id="standardModeContent" class="controls-panel" style="display: none;">
+        <div style="background: white; padding: 40px; border-radius: 8px; text-align: center; max-width: 600px; margin: 0 auto;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #333; margin-bottom: 15px;">Standard Radius Bomb</h3>
+            <p style="font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px;">
+                The standard Radius Bomb feature continues to work exactly as it does today. Draw a circle or custom shape on the map, apply property and demographic filters, and select addresses manually.
+            </p>
+            <p style="font-size: 13px; color: #999; margin-bottom: 25px;">
+                This mode gives you full control over your targeting with manual filter selection.
+            </p>
+            <button class="btn btn-default" onclick="switchToDataScience()" style="padding: 10px 24px;">
+                ← Back to Data Science Targeting
+            </button>
         </div>
     </div>
     
@@ -1146,77 +1212,82 @@
     <div id="resultsModal" class="modal-overlay">
         <div class="modal">
             <div class="modal-header">
-                <h2>✓ Analysis Complete!</h2>
-                <p>Select which tiers to include in your mailing campaign</p>
+                <h2>Analysis Complete</h2>
                 <button class="close-btn" onclick="closeResultsModal()">×</button>
             </div>
             
             <div class="modal-body">
-                <div class="stats-overview">
-                    <h3>Total Addresses Found</h3>
-                    <div class="total-stat">2,847</div>
-                    <div class="total-label">addresses in your target area</div>
-                </div>
-                
-                <div class="insight-box">
-                    <h4>💡 Data Science Insight</h4>
-                    <p>Your selected area shows 44% higher than average propensity for HVAC services. Peak likelihood found in homes valued $300k-$450k with strong seasonal buying patterns.</p>
-                </div>
-                
                 <div class="tier-selection">
-                    <h4>Select Target Tiers (Choose who receives your mailing)</h4>
+                    <h4>Select Target Tiers</h4>
                     
-                    <div class="tier-option selected" onclick="toggleTier(this, 'very-hot')" data-count="627">
+                    <!-- CRITICAL Warning for zero Very Hot AND Hot - hidden by default -->
+                    <div id="criticalWarning" style="display: none; background: #f8d7da; border-left: 4px solid #dc3545; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #721c24; margin-bottom: 8px;">🚨 Critical: No high-quality prospects found</div>
+                        <div style="font-size: 13px; color: #721c24; line-height: 1.6;">
+                            Your search area is too small to find quality prospects. You must:<br>
+                            • <strong>Widen your radius to at least 10+ miles</strong><br>
+                            • Consider choosing a different center address<br>
+                            • Try adjusting your optional qualifiers
+                        </div>
+                    </div>
+                    
+                    <!-- Warning for zero Very Hot - hidden by default, shown when veryHotCount = 0 -->
+                    <div id="zeroVeryHotWarning" style="display: none; background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #856404; margin-bottom: 8px;">⚠️ No Very Hot prospects found in this area</div>
+                        <div style="font-size: 13px; color: #856404; line-height: 1.6;">
+                            Try:<br>
+                            • Widening your radius to 20+ miles<br>
+                            • Adjusting your optional qualifiers<br>
+                            • Choosing a different center address
+                        </div>
+                    </div>
+                    
+                    <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                        🔥 <strong>Best results:</strong> Mail to Very Hot only OR widen your radius for more Very Hot prospects
+                    </p>
+                    
+                    <div class="tier-option selected" onclick="toggleTier(this, 'very-hot')" data-count="627" data-tier="very-hot">
                         <input type="checkbox" id="tierVeryHot" checked>
                         <div class="tier-info">
-                            <div class="tier-icon">🔥</div>
                             <div class="tier-details">
                                 <div class="tier-name">Very Hot Prospects</div>
-                                <div class="tier-description">Index 300+ • Highest conversion probability</div>
+                                <div class="tier-description">Highest conversion probability</div>
                             </div>
                         </div>
                         <div class="tier-count">627</div>
                     </div>
                     
-                    <div class="tier-option selected" onclick="toggleTier(this, 'hot')" data-count="616">
-                        <input type="checkbox" id="tierHot" checked>
+                    <div class="tier-option" onclick="toggleTier(this, 'hot')" data-count="616" data-tier="hot">
+                        <input type="checkbox" id="tierHot">
                         <div class="tier-info">
-                            <div class="tier-icon">🌡️</div>
                             <div class="tier-details">
                                 <div class="tier-name">Hot Prospects</div>
-                                <div class="tier-description">Index 200-299 • Strong conversion potential</div>
+                                <div class="tier-description">Strong conversion potential</div>
                             </div>
                         </div>
                         <div class="tier-count">616</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798">
+                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798" data-tier="medium">
                         <input type="checkbox" id="tierMedium">
                         <div class="tier-info">
-                            <div class="tier-icon">📊</div>
                             <div class="tier-details">
                                 <div class="tier-name">Medium Prospects</div>
-                                <div class="tier-description">Index 120-199 • Moderate conversion potential</div>
+                                <div class="tier-description">Moderate conversion potential</div>
                             </div>
                         </div>
                         <div class="tier-count">798</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806">
+                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806" data-tier="low">
                         <input type="checkbox" id="tierLow">
                         <div class="tier-info">
-                            <div class="tier-icon">❄️</div>
                             <div class="tier-details">
                                 <div class="tier-name">Lower Prospects</div>
-                                <div class="tier-description">Index <120 • Lower conversion probability</div>
+                                <div class="tier-description">Lower conversion probability</div>
                             </div>
                         </div>
                         <div class="tier-count">806</div>
-                    </div>
-                    
-                    <div class="selection-summary">
-                        <h5>Selected for Mailing:</h5>
-                        <div class="selected-count" id="selectedCount">1,243 addresses</div>
                     </div>
                 </div>
                 
@@ -1231,19 +1302,31 @@
             </div>
             
             <div class="modal-footer">
-                <button class="btn btn-primary" id="sendMailingBtn" onclick="sendMailing()">
-                    📬 Send Mailing
-                </button>
-                <button class="btn btn-text" onclick="modifyCriteria()">
-                    ✏️ Modify Search
-                </button>
+                <!-- Warning appears here when needed -->
+                <div id="tierSelectionWarning" style="display: none; background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 6px; margin-bottom: 15px; width: 100%;">
+                </div>
+                
+                <div style="width: 100%; margin-bottom: 15px;">
+                    <div style="font-size: 16px; font-weight: 600; color: #333;">
+                        Sending to: <span id="selectedCountFooter" style="color: #1ab394;">627 addresses</span>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button class="btn btn-primary" id="sendMailingBtn" onclick="sendMailing()" style="font-size: 16px; padding: 12px 32px;">
+                        🚀 Send Mailing
+                    </button>
+                    <button class="btn btn-default" onclick="modifyCriteria()">
+                        Modify Search
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     
     <script>
         let currentMode = 'circle';
-        let selectedTiers = new Set(['very-hot', 'hot']);
+        let selectedTiers = new Set(['very-hot']);
         
         function handleAddressSearch() {
             const address = document.getElementById('addressInput').value;
@@ -1292,8 +1375,109 @@
             
             setTimeout(() => {
                 hideLoadingModal();
+                
+                // Get radius and calculate results based on size
+                const radius = parseInt(document.getElementById('radius').value);
+                let veryHotCount, hotCount, mediumCount, lowCount, totalCount;
+                
+                if (radius < 3) {
+                    // Very small radius: Zero Very Hot AND Hot (worst case - red warning)
+                    veryHotCount = 0;
+                    hotCount = 0;
+                    mediumCount = 12;
+                    lowCount = 18;
+                    totalCount = 30;
+                } else if (radius < 5) {
+                    // Small radius: Zero Very Hot prospects (yellow warning)
+                    veryHotCount = 0;
+                    hotCount = 23;
+                    mediumCount = 45;
+                    lowCount = 67;
+                    totalCount = 135;
+                } else if (radius < 10) {
+                    // Medium-small radius: Low Very Hot count
+                    veryHotCount = 89;
+                    hotCount = 156;
+                    mediumCount = 234;
+                    lowCount = 312;
+                    totalCount = 791;
+                } else if (radius < 15) {
+                    // Medium radius: Decent results
+                    veryHotCount = 342;
+                    hotCount = 428;
+                    mediumCount = 556;
+                    lowCount = 623;
+                    totalCount = 1949;
+                } else {
+                    // Large radius (15+ miles): Best results (default)
+                    veryHotCount = 627;
+                    hotCount = 616;
+                    mediumCount = 798;
+                    lowCount = 806;
+                    totalCount = 2847;
+                }
+                
+                // Update modal with calculated counts
+                updateModalResults(veryHotCount, hotCount, mediumCount, lowCount, totalCount);
+                
                 showResultsModal();
             }, 2000);
+        }
+        
+        function updateModalResults(veryHot, hot, medium, low, total) {
+            // Update tier counts
+            document.querySelector('[data-tier="very-hot"]').dataset.count = veryHot;
+            document.querySelector('[data-tier="hot"]').dataset.count = hot;
+            document.querySelector('[data-tier="medium"]').dataset.count = medium;
+            document.querySelector('[data-tier="low"]').dataset.count = low;
+            
+            document.querySelector('[data-tier="very-hot"] .tier-count').textContent = veryHot;
+            document.querySelector('[data-tier="hot"] .tier-count').textContent = hot;
+            document.querySelector('[data-tier="medium"] .tier-count').textContent = medium;
+            document.querySelector('[data-tier="low"] .tier-count').textContent = low;
+            
+            // Reset ALL tier selections first
+            document.getElementById('tierVeryHot').checked = false;
+            document.getElementById('tierHot').checked = false;
+            document.getElementById('tierMedium').checked = false;
+            document.getElementById('tierLow').checked = false;
+            document.querySelector('[data-tier="very-hot"]').classList.remove('selected');
+            document.querySelector('[data-tier="hot"]').classList.remove('selected');
+            document.querySelector('[data-tier="medium"]').classList.remove('selected');
+            document.querySelector('[data-tier="low"]').classList.remove('selected');
+            selectedTiers.clear();
+            
+            // Show/hide zero Very Hot warning
+            const zeroWarning = document.getElementById('zeroVeryHotWarning');
+            const criticalWarning = document.getElementById('criticalWarning');
+            
+            if (veryHot === 0 && hot === 0) {
+                // CRITICAL: Both Very Hot and Hot are zero - show red warning
+                zeroWarning.style.display = 'none';
+                criticalWarning.style.display = 'block';
+                // Auto-select Medium
+                document.getElementById('tierMedium').checked = true;
+                document.querySelector('[data-tier="medium"]').classList.add('selected');
+                selectedTiers.add('medium');
+            } else if (veryHot === 0) {
+                // Zero Very Hot (but Hot exists) - show yellow warning
+                zeroWarning.style.display = 'block';
+                criticalWarning.style.display = 'none';
+                // Auto-select Hot
+                document.getElementById('tierHot').checked = true;
+                document.querySelector('[data-tier="hot"]').classList.add('selected');
+                selectedTiers.add('hot');
+            } else {
+                // Good results - hide warnings
+                zeroWarning.style.display = 'none';
+                criticalWarning.style.display = 'none';
+                // Select Very Hot (default best practice)
+                document.getElementById('tierVeryHot').checked = true;
+                document.querySelector('[data-tier="very-hot"]').classList.add('selected');
+                selectedTiers.add('very-hot');
+            }
+            
+            updateSelectedCount();
         }
         
         function toggleTier(element, tierId) {
@@ -1308,6 +1492,71 @@
                 selectedTiers.delete(tierId);
             }
             
+            // Check for illogical tier selection
+            checkTierLogic();
+            
+            updateSelectedCount();
+        }
+        
+        function checkTierLogic() {
+            const hasVeryHot = selectedTiers.has('very-hot');
+            const hasHot = selectedTiers.has('hot');
+            const hasMedium = selectedTiers.has('medium');
+            const hasLow = selectedTiers.has('low');
+            
+            console.log('Checking tier logic:', { hasVeryHot, hasHot, hasMedium, hasLow });
+            
+            let warningMessage = '';
+            
+            // Check if they selected lower tiers without higher ones
+            if ((hasMedium || hasLow) && !hasVeryHot && !hasHot) {
+                warningMessage = 'We recommend including Very Hot and Hot tiers for best results. Lower tiers alone typically have much lower conversion rates.';
+            } else if (hasLow && !hasMedium) {
+                warningMessage = 'Consider including Medium, Hot, and Very Hot tiers. Lower tier alone typically has very low conversion rates.';
+            } else if ((hasMedium && !hasHot) || (hasLow && !hasHot)) {
+                warningMessage = 'We recommend including Hot and Very Hot tiers for better conversion rates.';
+            }
+            
+            console.log('Warning message:', warningMessage);
+            
+            // Show or hide warning
+            const warningDiv = document.getElementById('tierSelectionWarning');
+            if (warningMessage) {
+                warningDiv.innerHTML = `
+                    <div style="display: flex; align-items: start; gap: 10px;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #856404; margin-bottom: 5px;">⚠️ Tier Selection Notice</div>
+                            <div style="font-size: 13px; color: #856404; line-height: 1.5;">${warningMessage}</div>
+                        </div>
+                        <button onclick="autoSelectRecommended()" style="background: #856404; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; white-space: nowrap;">Include Hot + Very Hot</button>
+                    </div>
+                `;
+                warningDiv.style.display = 'block';
+            } else {
+                warningDiv.style.display = 'none';
+            }
+        }
+        
+        function autoSelectRecommended() {
+            // Auto-select Very Hot and Hot
+            selectedTiers.add('very-hot');
+            selectedTiers.add('hot');
+            
+            // Update UI - use querySelector with correct selector
+            const veryHotOption = document.querySelector('.tier-option[data-tier="very-hot"]');
+            const hotOption = document.querySelector('.tier-option[data-tier="hot"]');
+            
+            if (veryHotOption) {
+                veryHotOption.classList.add('selected');
+                document.getElementById('tierVeryHot').checked = true;
+            }
+            if (hotOption) {
+                hotOption.classList.add('selected');
+                document.getElementById('tierHot').checked = true;
+            }
+            
+            // Recheck logic and update count
+            checkTierLogic();
             updateSelectedCount();
         }
         
@@ -1317,7 +1566,8 @@
                 total += parseInt(tier.dataset.count);
             });
             
-            document.getElementById('selectedCount').textContent = total.toLocaleString() + ' addresses';
+            const countText = total.toLocaleString() + ' addresses';
+            document.getElementById('selectedCountFooter').textContent = countText;
             document.getElementById('sendMailingBtn').disabled = total === 0;
         }
         
@@ -1351,6 +1601,40 @@
             document.getElementById('heatMapOverlay').classList.remove('show');
         }
         
+        // Tab switching
+        document.querySelectorAll('.tab').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show/hide content
+                if (index === 0) {
+                    // Data Science Targeting
+                    document.querySelector('.controls-panel').style.display = 'block';
+                    document.getElementById('standardModeContent').style.display = 'none';
+                } else {
+                    // Standard (Manual Filters)
+                    document.querySelector('.controls-panel').style.display = 'none';
+                    document.getElementById('standardModeContent').style.display = 'block';
+                }
+            });
+        });
+        
+        function switchToDataScience() {
+            document.querySelectorAll('.tab')[0].click();
+        }
+        
+        function dismissBanner() {
+            const banner = document.getElementById('instructionBanner');
+            banner.style.transition = 'all 0.3s ease-out';
+            banner.style.opacity = '0';
+            banner.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 300);
+        }
+        
         // Demo: Auto-trigger custom shape analysis
         window.addEventListener('click', function demoCustomShape(e) {
             if (currentMode === 'custom' && e.target.classList.contains('mode-option')) {
@@ -1362,5 +1646,6 @@
             }
         });
     </script>
+    
 </body>
 </html>
