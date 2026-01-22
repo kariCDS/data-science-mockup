@@ -84,6 +84,149 @@
             box-shadow: 0 2px 8px rgba(26, 179, 148, 0.3);
         }
         
+        .switch-mode-btn {
+            background: white;
+            border: 2px solid #007afe;
+            color: #007afe;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .switch-mode-btn:hover {
+            background: #007afe;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 122, 254, 0.3);
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e7eaec;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .tab-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .mode-tab {
+            background: white;
+            border: 2px solid #ddd;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+            position: relative;
+        }
+        
+        .mode-tab:hover {
+            border-color: #007afe;
+            transform: translateY(-2px);
+        }
+        
+        .mode-tab.active {
+            background: linear-gradient(135deg, #007afe 0%, #005bb5 100%);
+            border-color: #007afe;
+            color: white;
+            box-shadow: 0 -2px 8px rgba(0, 122, 254, 0.2);
+        }
+        
+        .mode-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #007afe;
+        }
+        
+        .tab-icon {
+            font-size: 24px;
+        }
+        
+        .tab-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+        }
+        
+        .tab-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+        
+        .tab-subtitle {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+        
+        .mode-tab:not(.active) .tab-content {
+            color: #666;
+        }
+        
+        .compare-link {
+            background: transparent;
+            border: 2px dashed #007afe;
+            color: #007afe;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .compare-link:hover {
+            background: #007afe;
+            color: white;
+            border-style: solid;
+        }
+        
+        .compare-link strong {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .tab-navigation {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .tab-container {
+                width: 100%;
+            }
+            
+            .mode-tab {
+                flex: 1;
+                min-width: auto;
+            }
+            
+            .compare-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
         .search-container {
             display: flex;
             gap: 10px;
@@ -210,13 +353,14 @@
         }
         
         .callout-box {
-            background: linear-gradient(135deg, #1ab394 0%, #18a689 100%);
+            background: linear-gradient(135deg, #007afe 0%, #005bb5 100%);
             color: white;
             padding: 20px 24px;
-            border-radius: 8px;
+            border-radius: 0 0 8px 8px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(26, 179, 148, 0.25);
-            border-left: 4px solid #fff;
+            box-shadow: 0 4px 12px rgba(0, 122, 254, 0.25);
+            border-left: none;
+            margin-top: -2px;
         }
         
         .callout-box h3 {
@@ -226,11 +370,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        .callout-box h3::before {
-            content: "🎯";
-            font-size: 24px;
         }
         
         .callout-box .highlight {
@@ -1035,31 +1174,23 @@
 </head>
 <body>
     <!-- Instruction Banner -->
-    <div id="instructionBanner" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-bottom: 3px solid #5a67d8; position: relative;">
+    <div id="instructionBanner" style="background: linear-gradient(135deg, #007afe 0%, #005bb5 100%); color: white; padding: 20px; border-bottom: 3px solid #005bb5; position: relative;">
         <div style="max-width: 1200px; margin: 0 auto;">
             <div style="display: flex; align-items: start; gap: 15px;">
                 <div style="font-size: 24px;">📋</div>
                 <div style="flex: 1;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">BETA MOCKUP - QUICK WINS VERSION</h3>
+                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">PREDICTIVE TARGETING - BETA MOCKUP</h3>
                     <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5; opacity: 0.95;">
-                        Changes in this version:
+                        Test the radius logic to see how tier availability changes based on area size:
                     </p>
-                    <ul style="margin: 0 0 15px 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
-                        <li>✅ Changed "Smart Radius" to just "Radius"</li>
-                        <li>✅ Simplified blue callout box with stronger "4x more likely" messaging</li>
-                        <li>✅ Added "Larger areas generate more hot leads" tip under radius input</li>
-                        <li>✅ Changed feature name to "Predictive Targeting"</li>
-                        <li>✅ Added "Up to 4x more likely to buy" on Very Hot tier</li>
-                        <li>✅ Added Beta Feedback button in header (always accessible)</li>
-                    </ul>
-                    <div style="background: rgba(255,255,255,0.15); padding: 12px 15px; border-radius: 6px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.15); padding: 12px 15px; border-radius: 6px; margin-top: 10px;">
                         <div style="font-weight: 600; margin-bottom: 8px;">🧪 TEST THE RADIUS LOGIC:</div>
                         <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-                            <li><strong>&lt;3 miles:</strong> 🚨 CRITICAL (red warning) - Only Lower tier available</li>
-                            <li><strong>3-5 miles:</strong> ⚠️ WARNING (yellow) - Medium + Lower only</li>
-                            <li><strong>5-10 miles:</strong> ⚠️ LOW (yellow) - Hot + Medium + Lower (no Very Hot)</li>
-                            <li><strong>10-15 miles:</strong> ✓ DECENT - All tiers, but low Very Hot count (89)</li>
-                            <li><strong>15+ miles:</strong> ✓✓ BEST - All tiers with high counts (627 Very Hot)</li>
+                            <li><strong>&lt;3 miles:</strong> 🚨 CRITICAL (red warning) - Only Cold tier available (156 addresses)</li>
+                            <li><strong>3-5 miles:</strong> ⚠️ WARNING (yellow) - Warm + Cold only (546 addresses)</li>
+                            <li><strong>5-10 miles:</strong> ⚠️ LOW (yellow) - Hot + Warm + Cold (no Very Hot) (1,607 addresses)</li>
+                            <li><strong>10-15 miles:</strong> ✓ DECENT - All tiers, but low Very Hot count (89) (1,696 addresses)</li>
+                            <li><strong>15+ miles:</strong> ✓✓ BEST - All tiers with high counts (627 Very Hot) (2,847 addresses)</li>
                         </ul>
                     </div>
                 </div>
@@ -1069,12 +1200,15 @@
             </div>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
     
     <!-- Page Header -->
     <div class="page-header">
         <div class="panel-heading-custom">
             <h4 class="panel-title-custom">
-                Radius Bomb Map
+                Radius Bomb
             </h4>
             <button class="feedback-btn" onclick="showBetaFeedback()">
                 <span>🧪</span>
@@ -1082,27 +1216,39 @@
             </button>
         </div>
         
-        <div class="tabs">
-            <button class="tab active">
-                Predictive Targeting (Beta)
-            </button>
-            <button class="tab">
-                Standard (Manual Filters)
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <div class="tab-container">
+                <button class="mode-tab active" id="predictiveTab" onclick="switchToMode('predictive')">
+                    <span class="tab-icon">🎯</span>
+                    <div class="tab-content">
+                        <span class="tab-title">Predictive Targeting</span>
+                        <span class="tab-subtitle">Data-driven targeting</span>
+                    </div>
+                </button>
+                <button class="mode-tab" id="standardTab" onclick="switchToMode('standard')">
+                    <span class="tab-icon">🗺️</span>
+                    <div class="tab-content">
+                        <span class="tab-title">Standard</span>
+                        <span class="tab-subtitle">Manual filters</span>
+                    </div>
+                </button>
+            </div>
+            <button class="compare-link" onclick="window.location.href='data-coverpage.html'">
+                <span>❓</span> Not sure which to use? <strong>Compare Modes</strong>
             </button>
         </div>
     </div>
     
-    <!-- Controls Panel -->
-    <div class="controls-panel">
-        <div class="callout-box">
-            <h3>Find homeowners up to 4x more likely to buy</h3>
-            <p class="highlight">
-                Uses customer data to <strong>predict your most likely buyers</strong>—no other mapping tool on the market can do this.
-            </p>
-            <p class="subtext">
-                Unlike generic radius tools that show everyone in an area, Predictive Targeting analyzes millions of real buyer transactions to identify homeowners with the highest purchase probability for your specific industry.
-            </p>
-        </div>
+    <!-- Predictive Mode Content -->
+    <div id="predictiveModeContent">
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="callout-box" style="padding: 16px 24px;">
+                <h3 style="margin: 0; font-size: 20px; text-align: center; font-weight: 700; line-height: 1.4;">
+                    Find homeowners up to 4x more likely to buy vs. neighborhood saturation
+                </h3>
+            </div>
         
         <!-- Mode Toggle -->
         <div class="mode-toggle">
@@ -1351,11 +1497,11 @@
                         <div class="tier-count">616</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798" data-tier="medium">
-                        <input type="checkbox" id="tierMedium">
+                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798" data-tier="warm">
+                        <input type="checkbox" id="tierWarm">
                         <div class="tier-info">
                             <div class="tier-details">
-                                <div class="tier-name">Medium Prospects</div>
+                                <div class="tier-name">Warm Prospects</div>
                                 <div class="tier-description">Moderate conversion potential</div>
                                 <div class="tier-likelihood">↑ Above average likelihood</div>
                             </div>
@@ -1363,11 +1509,11 @@
                         <div class="tier-count">798</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806" data-tier="low">
-                        <input type="checkbox" id="tierLow">
+                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806" data-tier="cold">
+                        <input type="checkbox" id="tierCold">
                         <div class="tier-info">
                             <div class="tier-details">
-                                <div class="tier-name">Lower Prospects</div>
+                                <div class="tier-name">Cold Prospects</div>
                                 <div class="tier-description">Lower conversion probability</div>
                             </div>
                         </div>
@@ -1407,8 +1553,74 @@
             </div>
         </div>
     </div>
+    </div><!-- End Predictive Mode Content -->
+    
+    <!-- Standard Mode Content -->
+    <div id="standardModeContent" >
+        <div class="controls-panel">
+            <div class="callout-box" style="padding: 16px 24px; background: linear-gradient(135deg, #007afe 0%, #005bb5 100%);">
+                <h3 style="margin: 0; font-size: 20px; text-align: center; font-weight: 700; line-height: 1.4;">
+                    Full manual control - draw shapes and apply your own filters
+                </h3>
+            </div>
+            
+            <div style="padding: 40px; text-align: center; color: #666;">
+                <h2 style="font-size: 24px; margin-bottom: 20px;">🗺️ Standard Radius Bomb</h2>
+                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                    This is where the standard radius bomb interface would appear.<br>
+                    Draw custom shapes, apply manual filters, and select addresses yourself.
+                </p>
+                <p style="font-size: 14px; color: #999;">
+                   No changes to be made
+                </p>
+            </div>
+        </div>
+    </div><!-- End Standard Mode Content -->
     
     <script>
+        // Mode switching functionality
+        function switchToMode(mode) {
+            const predictiveTab = document.getElementById('predictiveTab');
+            const standardTab = document.getElementById('standardTab');
+            const predictiveContent = document.getElementById('predictiveModeContent');
+            const standardContent = document.getElementById('standardModeContent');
+            
+            if (mode === 'predictive') {
+                // Show predictive, hide standard
+                predictiveTab.classList.add('active');
+                standardTab.classList.remove('active');
+                predictiveContent.style.display = 'block';
+                standardContent.style.display = 'none';
+                
+                // Update URL without reload
+                const url = new URL(window.location);
+                url.searchParams.set('mode', 'predictive');
+                window.history.pushState({}, '', url);
+            } else if (mode === 'standard') {
+                // Show standard, hide predictive
+                standardTab.classList.add('active');
+                predictiveTab.classList.remove('active');
+                standardContent.style.display = 'block';
+                predictiveContent.style.display = 'none';
+                
+                // Update URL without reload
+                const url = new URL(window.location);
+                url.searchParams.set('mode', 'standard');
+                window.history.pushState({}, '', url);
+            }
+        }
+        
+        // Check URL parameters on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            
+            if (mode === 'standard') {
+                switchToMode('standard');
+            }
+            // Default is predictive, so no action needed if mode is null or 'predictive'
+        });
+        
         let currentMode = 'circle';
         let selectedTiers = new Set(['very-hot']);
         
@@ -1520,23 +1732,23 @@
             // Update tier counts
             document.querySelector('[data-tier="very-hot"]').dataset.count = veryHot;
             document.querySelector('[data-tier="hot"]').dataset.count = hot;
-            document.querySelector('[data-tier="medium"]').dataset.count = medium;
-            document.querySelector('[data-tier="low"]').dataset.count = low;
+            document.querySelector('[data-tier="warm"]').dataset.count = medium;
+            document.querySelector('[data-tier="cold"]').dataset.count = low;
             
             document.querySelector('[data-tier="very-hot"] .tier-count').textContent = veryHot;
             document.querySelector('[data-tier="hot"] .tier-count').textContent = hot;
-            document.querySelector('[data-tier="medium"] .tier-count').textContent = medium;
-            document.querySelector('[data-tier="low"] .tier-count').textContent = low;
+            document.querySelector('[data-tier="warm"] .tier-count').textContent = medium;
+            document.querySelector('[data-tier="cold"] .tier-count').textContent = low;
             
             // Reset ALL tier selections first
             document.getElementById('tierVeryHot').checked = false;
             document.getElementById('tierHot').checked = false;
-            document.getElementById('tierMedium').checked = false;
-            document.getElementById('tierLow').checked = false;
+            document.getElementById('tierWarm').checked = false;
+            document.getElementById('tierCold').checked = false;
             document.querySelector('[data-tier="very-hot"]').classList.remove('selected');
             document.querySelector('[data-tier="hot"]').classList.remove('selected');
-            document.querySelector('[data-tier="medium"]').classList.remove('selected');
-            document.querySelector('[data-tier="low"]').classList.remove('selected');
+            document.querySelector('[data-tier="warm"]').classList.remove('selected');
+            document.querySelector('[data-tier="cold"]').classList.remove('selected');
             selectedTiers.clear();
             
             // Show/hide warnings based on what tiers exist
@@ -1553,15 +1765,15 @@
                 // CRITICAL: Only Lower tier exists
                 criticalWarning.style.display = 'block';
                 // Auto-select Lower (only option)
-                document.getElementById('tierLow').checked = true;
-                document.querySelector('[data-tier="low"]').classList.add('selected');
+                document.getElementById('tierCold').checked = true;
+                document.querySelector('[data-tier="cold"]').classList.add('selected');
                 selectedTiers.add('low');
             } else if (veryHot === 0 && hot === 0) {
                 // WARNING: Medium + Lower only (no hot tiers)
                 mediumWarning.style.display = 'block';
                 // Auto-select Medium
-                document.getElementById('tierMedium').checked = true;
-                document.querySelector('[data-tier="medium"]').classList.add('selected');
+                document.getElementById('tierWarm').checked = true;
+                document.querySelector('[data-tier="warm"]').classList.add('selected');
                 selectedTiers.add('medium');
             } else if (veryHot === 0) {
                 // CAUTION: No Very Hot (but Hot exists)
