@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SendJim - Precision Targeting (Beta)</title>
+    <title>SendJim - Predictive Targeting (Beta)</title>
     <style>
         :root {
             --background-color: #fbf9fa;
@@ -43,6 +43,9 @@
             background: var(--surface-color);
             border-bottom: 1px solid #e7eaec;
             padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .panel-title-custom {
@@ -57,6 +60,28 @@
         .panel-title-custom::before {
             content: "📍";
             font-size: 18px;
+        }
+        
+        .feedback-btn {
+            background: #f8f9fa;
+            border: 2px solid #1ab394;
+            color: #1ab394;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .feedback-btn:hover {
+            background: #1ab394;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(26, 179, 148, 0.3);
         }
         
         .search-container {
@@ -185,35 +210,48 @@
         }
         
         .callout-box {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+            background: linear-gradient(135deg, #1ab394 0%, #18a689 100%);
             color: white;
-            padding: 18px 20px;
-            border-radius: 4px;
+            padding: 20px 24px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 122, 254, 0.2);
+            box-shadow: 0 4px 12px rgba(26, 179, 148, 0.25);
+            border-left: 4px solid #fff;
         }
         
         .callout-box h3 {
-            font-size: 15px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .callout-box p {
-            font-size: 13px;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-        
-        .callout-box .tip {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 6px;
-            font-size: 12px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+        }
+        
+        .callout-box h3::before {
+            content: "🎯";
+            font-size: 24px;
+        }
+        
+        .callout-box .highlight {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 1;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .callout-box .highlight strong {
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .callout-box .subtext {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.5;
         }
         
         /* Mode Toggle */
@@ -384,6 +422,21 @@
             white-space: nowrap;
         }
         
+        .radius-tip {
+            font-size: 12px;
+            color: #1ab394;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+        
+        .radius-tip::before {
+            content: "💡";
+            font-size: 14px;
+        }
+        
         .qualifiers-row {
             display: flex;
             gap: 20px;
@@ -490,15 +543,6 @@
             color: #666;
             line-height: 1.5;
             margin: 0;
-        }
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        
-        .custom-shape-message p {
-            font-size: 13px;
-            color: #0056b3;
-            line-height: 1.6;
         }
         
         .help-icon {
@@ -815,6 +859,13 @@
             color: #666;
         }
         
+        .tier-likelihood {
+            font-size: 11px;
+            color: #1ab394;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
         .tier-count {
             font-size: 18px;
             font-weight: 700;
@@ -989,18 +1040,28 @@
             <div style="display: flex; align-items: start; gap: 15px;">
                 <div style="font-size: 24px;">📋</div>
                 <div style="flex: 1;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">BETA MOCKUP FOR REVIEW</h3>
+                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">BETA MOCKUP - QUICK WINS VERSION</h3>
                     <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5; opacity: 0.95;">
-                        This is an interactive mockup of our new "Precision Targeting" feature for Radius Bomb. This beta feature will initially release to select customers. Please provide feedback on:
+                        Changes in this version:
                     </p>
-                    <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
-                        <li><strong>Feature name:</strong> "Precision Targeting" vs "Data Science Targeting" - which resonates better?</li>
-                        <li>Overall concept and messaging (is it clear what this does and why it's valuable?)</li>
-                        <li>User flow (address → radius → industry → analyze → tier selection → send)</li>
-                        <li>Tier selection approach (Very Hot, Hot, Medium, Low) and warning states</li>
-                        <li>Beta positioning and credibility of messaging</li>
-                        <li><strong>Try different radius values:</strong> &lt;3 miles (🚨 critical red warning), 3-5 miles (⚠️ yellow warning), 5-10 miles (low results), 10-15 miles (decent), 15+ miles (best)</li>
+                    <ul style="margin: 0 0 15px 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+                        <li>✅ Changed "Smart Radius" to just "Radius"</li>
+                        <li>✅ Simplified blue callout box with stronger "4x more likely" messaging</li>
+                        <li>✅ Added "Larger areas generate more hot leads" tip under radius input</li>
+                        <li>✅ Changed feature name to "Predictive Targeting"</li>
+                        <li>✅ Added "Up to 4x more likely to buy" on Very Hot tier</li>
+                        <li>✅ Added Beta Feedback button in header (always accessible)</li>
                     </ul>
+                    <div style="background: rgba(255,255,255,0.15); padding: 12px 15px; border-radius: 6px; margin-top: 15px;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">🧪 TEST THE RADIUS LOGIC:</div>
+                        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+                            <li><strong>&lt;3 miles:</strong> 🚨 CRITICAL (red warning) - Only Lower tier available</li>
+                            <li><strong>3-5 miles:</strong> ⚠️ WARNING (yellow) - Medium + Lower only</li>
+                            <li><strong>5-10 miles:</strong> ⚠️ LOW (yellow) - Hot + Medium + Lower (no Very Hot)</li>
+                            <li><strong>10-15 miles:</strong> ✓ DECENT - All tiers, but low Very Hot count (89)</li>
+                            <li><strong>15+ miles:</strong> ✓✓ BEST - All tiers with high counts (627 Very Hot)</li>
+                        </ul>
+                    </div>
                 </div>
                 <button onclick="dismissBanner()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; transition: all 0.2s;">
                     Dismiss ✕
@@ -1015,11 +1076,15 @@
             <h4 class="panel-title-custom">
                 Radius Bomb Map
             </h4>
+            <button class="feedback-btn" onclick="showBetaFeedback()">
+                <span>🧪</span>
+                Beta Feedback
+            </button>
         </div>
         
         <div class="tabs">
             <button class="tab active">
-                Precision Targeting (Beta)
+                Predictive Targeting (Beta)
             </button>
             <button class="tab">
                 Standard (Manual Filters)
@@ -1030,9 +1095,13 @@
     <!-- Controls Panel -->
     <div class="controls-panel">
         <div class="callout-box">
-            <h3>Precision Targeting: Powered by Buyer Behavior Data</h3>
-            <p>Our data experts analyzed millions of home service transactions to identify patterns in buyer behavior. This tool applies those insights to find homeowners most likely to need your services.</p>
-            <div class="tip">🧪 Beta Feature: We're refining this approach and value your feedback! <a href="#" onclick="showBetaFeedback(); return false;" style="color: white; text-decoration: underline; font-weight: 600;">Share your feedback</a> • Wider is Better: Larger search areas (15+ miles) give our models more data to find the best prospects.</div>
+            <h3>Find homeowners up to 4x more likely to buy</h3>
+            <p class="highlight">
+                Uses customer data to <strong>predict your most likely buyers</strong>—no other mapping tool on the market can do this.
+            </p>
+            <p class="subtext">
+                Unlike generic radius tools that show everyone in an area, Predictive Targeting analyzes millions of real buyer transactions to identify homeowners with the highest purchase probability for your specific industry.
+            </p>
         </div>
         
         <!-- Mode Toggle -->
@@ -1041,7 +1110,7 @@
             <div class="mode-option recommended active" onclick="switchMode('circle')">
                 <input type="radio" name="mode" id="circleMode" checked>
                 <label for="circleMode">
-                    Smart Radius
+                    Radius
                     <span class="mode-subtitle">Recommended: Best results with larger areas</span>
                 </label>
             </div>
@@ -1068,18 +1137,19 @@
                 <div class="control-group">
                     <label for="radius">
                         Radius from Address
-                        <span class="help-icon" title="Set how many miles around your center address to analyze. Larger areas (15+ miles) give our data models more information to identify the best prospects.">?</span>
+                        <span class="help-icon" title="Set how many miles around your center address to analyze. Larger areas give our predictive models more data to identify the best prospects.">?</span>
                     </label>
                     <div class="input-with-suffix">
                         <input type="number" id="radius" value="15" min="1" max="100">
                         <span class="input-suffix">miles</span>
                     </div>
+                    <div class="radius-tip">Larger areas generate more hot leads</div>
                 </div>
                 
                 <div class="control-group">
                     <label for="industry">
                         Target Industry
-                        <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
+                        <span class="help-icon" title="Choose your business type. Our predictive models use real buyer behavior patterns specific to your industry.">?</span>
                     </label>
                     <select id="industry">
                         <option value="" disabled>- Choose Industry -</option>
@@ -1136,7 +1206,7 @@
                 <div class="control-group">
                     <label for="industryCustom">
                         Target Industry
-                        <span class="help-icon" title="Choose your business type. Our data science models use real buyer behavior patterns specific to your industry to find high-propensity customers.">?</span>
+                        <span class="help-icon" title="Choose your business type. Our predictive models use real buyer behavior patterns specific to your industry.">?</span>
                     </label>
                     <select id="industryCustom">
                         <option value="" disabled>- Choose Industry -</option>
@@ -1187,8 +1257,8 @@
             <p style="font-size: 13px; color: #999; margin-bottom: 25px;">
                 This mode gives you full control over your targeting with manual filter selection.
             </p>
-            <button class="btn btn-default" onclick="switchToDataScience()" style="padding: 10px 24px;">
-                ← Back to Data Science Targeting
+            <button class="btn btn-default" onclick="switchToPredictive()" style="padding: 10px 24px;">
+                ← Back to Predictive Targeting
             </button>
         </div>
     </div>
@@ -1204,7 +1274,7 @@
         <div class="loading-modal">
             <div class="spinner"></div>
             <h3>Analyzing your target area...</h3>
-            <p>Running data science models to find the hottest prospects</p>
+            <p>Running predictive models to find the hottest prospects</p>
         </div>
     </div>
 
@@ -1220,14 +1290,25 @@
                 <div class="tier-selection">
                     <h4>Select Target Tiers</h4>
                     
-                    <!-- CRITICAL Warning for zero Very Hot AND Hot - hidden by default -->
+                    <!-- CRITICAL Warning for zero Very Hot AND Hot AND Medium - hidden by default -->
                     <div id="criticalWarning" style="display: none; background: #f8d7da; border-left: 4px solid #dc3545; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
-                        <div style="font-weight: 600; color: #721c24; margin-bottom: 8px;">🚨 Critical: No high-quality prospects found</div>
+                        <div style="font-weight: 600; color: #721c24; margin-bottom: 8px;">🚨 Critical: Area too small for quality targeting</div>
                         <div style="font-size: 13px; color: #721c24; line-height: 1.6;">
-                            Your search area is too small to find quality prospects. You must:<br>
-                            • <strong>Widen your radius to at least 10+ miles</strong><br>
+                            Only Lower tier prospects found. For better results:<br>
+                            • <strong>Widen your radius to at least 10+ miles</strong> to unlock Hot and Very Hot tiers<br>
                             • Consider choosing a different center address<br>
                             • Try adjusting your optional qualifiers
+                        </div>
+                    </div>
+                    
+                    <!-- Warning for zero Very Hot AND Hot - hidden by default -->
+                    <div id="mediumWarning" style="display: none; background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                        <div style="font-weight: 600; color: #856404; margin-bottom: 8px;">⚠️ No Hot or Very Hot prospects in this area</div>
+                        <div style="font-size: 13px; color: #856404; line-height: 1.6;">
+                            Try:<br>
+                            • Widening your radius to 10+ miles to unlock Hot and Very Hot tiers<br>
+                            • Adjusting your optional qualifiers<br>
+                            • Choosing a different center address
                         </div>
                     </div>
                     
@@ -1236,7 +1317,7 @@
                         <div style="font-weight: 600; color: #856404; margin-bottom: 8px;">⚠️ No Very Hot prospects found in this area</div>
                         <div style="font-size: 13px; color: #856404; line-height: 1.6;">
                             Try:<br>
-                            • Widening your radius to 20+ miles<br>
+                            • Widening your radius to 15+ miles to find Very Hot prospects<br>
                             • Adjusting your optional qualifiers<br>
                             • Choosing a different center address
                         </div>
@@ -1252,6 +1333,7 @@
                             <div class="tier-details">
                                 <div class="tier-name">Very Hot Prospects</div>
                                 <div class="tier-description">Highest conversion probability</div>
+                                <div class="tier-likelihood">↑ Up to 4x more likely to buy</div>
                             </div>
                         </div>
                         <div class="tier-count">627</div>
@@ -1263,6 +1345,7 @@
                             <div class="tier-details">
                                 <div class="tier-name">Hot Prospects</div>
                                 <div class="tier-description">Strong conversion potential</div>
+                                <div class="tier-likelihood">↑ 2-3x more likely to buy</div>
                             </div>
                         </div>
                         <div class="tier-count">616</div>
@@ -1274,6 +1357,7 @@
                             <div class="tier-details">
                                 <div class="tier-name">Medium Prospects</div>
                                 <div class="tier-description">Moderate conversion potential</div>
+                                <div class="tier-likelihood">↑ Above average likelihood</div>
                             </div>
                         </div>
                         <div class="tier-count">798</div>
@@ -1294,8 +1378,8 @@
                 <div class="criteria-summary">
                     <h4>Search Criteria</h4>
                     <div class="criteria-list">
-                        <span class="criteria-tag active" id="modeCriteria">Smart Radius - 15 miles</span>
-                        <span class="criteria-tag active">HVAC Services</span>
+                        <span class="criteria-tag active" id="modeCriteria">Radius - 15 miles</span>
+                        <span class="criteria-tag active">Roofing</span>
                         <span class="criteria-tag active">Homeowners Only</span>
                     </div>
                 </div>
@@ -1360,7 +1444,7 @@
             }
             
             const radius = document.getElementById('radius').value;
-            document.getElementById('modeCriteria').textContent = `Smart Radius - ${radius} miles`;
+            document.getElementById('modeCriteria').textContent = `Radius - ${radius} miles`;
             
             runAnalysis();
         }
@@ -1378,44 +1462,52 @@
                 
                 // Get radius and calculate results based on size
                 const radius = parseInt(document.getElementById('radius').value);
+                console.log('Running analysis with radius:', radius);
                 let veryHotCount, hotCount, mediumCount, lowCount, totalCount;
                 
                 if (radius < 3) {
-                    // Very small radius: Zero Very Hot AND Hot (worst case - red warning)
+                    // < 3 miles: ONLY Lower tier exists (🚨 CRITICAL red warning)
+                    console.log('🚨 CRITICAL: Radius < 3 miles - Only Lower tier');
                     veryHotCount = 0;
                     hotCount = 0;
-                    mediumCount = 12;
-                    lowCount = 18;
-                    totalCount = 30;
-                } else if (radius < 5) {
-                    // Small radius: Zero Very Hot prospects (yellow warning)
+                    mediumCount = 0;
+                    lowCount = 156;
+                    totalCount = 156;
+                } else if (radius >= 3 && radius < 5) {
+                    // 3-5 miles: Medium + Lower (⚠️ yellow warning - no hot tiers)
+                    console.log('⚠️ WARNING: Radius 3-5 miles - Medium + Lower only');
                     veryHotCount = 0;
-                    hotCount = 23;
-                    mediumCount = 45;
-                    lowCount = 67;
-                    totalCount = 135;
-                } else if (radius < 10) {
-                    // Medium-small radius: Low Very Hot count
-                    veryHotCount = 89;
-                    hotCount = 156;
+                    hotCount = 0;
                     mediumCount = 234;
                     lowCount = 312;
-                    totalCount = 791;
-                } else if (radius < 15) {
-                    // Medium radius: Decent results
-                    veryHotCount = 342;
+                    totalCount = 546;
+                } else if (radius >= 5 && radius < 10) {
+                    // 5-10 miles: Hot + Medium + Lower (low results - no very hot)
+                    console.log('⚠️ LOW: Radius 5-10 miles - Missing Very Hot tier');
+                    veryHotCount = 0;
                     hotCount = 428;
                     mediumCount = 556;
                     lowCount = 623;
-                    totalCount = 1949;
+                    totalCount = 1607;
+                } else if (radius >= 10 && radius < 15) {
+                    // 10-15 miles: All tiers but low Very Hot count (decent)
+                    console.log('✓ DECENT: Radius 10-15 miles - Low Very Hot count');
+                    veryHotCount = 89;
+                    hotCount = 428;
+                    mediumCount = 556;
+                    lowCount = 623;
+                    totalCount = 1696;
                 } else {
-                    // Large radius (15+ miles): Best results (default)
+                    // 15+ miles: All tiers with good counts (BEST)
+                    console.log('✓✓ BEST: Radius 15+ miles - All tiers available');
                     veryHotCount = 627;
                     hotCount = 616;
                     mediumCount = 798;
                     lowCount = 806;
                     totalCount = 2847;
                 }
+                
+                console.log('Results:', { veryHotCount, hotCount, mediumCount, lowCount, totalCount });
                 
                 // Update modal with calculated counts
                 updateModalResults(veryHotCount, hotCount, mediumCount, lowCount, totalCount);
@@ -1447,30 +1539,39 @@
             document.querySelector('[data-tier="low"]').classList.remove('selected');
             selectedTiers.clear();
             
-            // Show/hide zero Very Hot warning
-            const zeroWarning = document.getElementById('zeroVeryHotWarning');
+            // Show/hide warnings based on what tiers exist
+            const zeroVeryHotWarning = document.getElementById('zeroVeryHotWarning');
+            const mediumWarning = document.getElementById('mediumWarning');
             const criticalWarning = document.getElementById('criticalWarning');
             
-            if (veryHot === 0 && hot === 0) {
-                // CRITICAL: Both Very Hot and Hot are zero - show red warning
-                zeroWarning.style.display = 'none';
+            // Hide all warnings first
+            zeroVeryHotWarning.style.display = 'none';
+            mediumWarning.style.display = 'none';
+            criticalWarning.style.display = 'none';
+            
+            if (veryHot === 0 && hot === 0 && medium === 0) {
+                // CRITICAL: Only Lower tier exists
                 criticalWarning.style.display = 'block';
+                // Auto-select Lower (only option)
+                document.getElementById('tierLow').checked = true;
+                document.querySelector('[data-tier="low"]').classList.add('selected');
+                selectedTiers.add('low');
+            } else if (veryHot === 0 && hot === 0) {
+                // WARNING: Medium + Lower only (no hot tiers)
+                mediumWarning.style.display = 'block';
                 // Auto-select Medium
                 document.getElementById('tierMedium').checked = true;
                 document.querySelector('[data-tier="medium"]').classList.add('selected');
                 selectedTiers.add('medium');
             } else if (veryHot === 0) {
-                // Zero Very Hot (but Hot exists) - show yellow warning
-                zeroWarning.style.display = 'block';
-                criticalWarning.style.display = 'none';
+                // CAUTION: No Very Hot (but Hot exists)
+                zeroVeryHotWarning.style.display = 'block';
                 // Auto-select Hot
                 document.getElementById('tierHot').checked = true;
                 document.querySelector('[data-tier="hot"]').classList.add('selected');
                 selectedTiers.add('hot');
             } else {
-                // Good results - hide warnings
-                zeroWarning.style.display = 'none';
-                criticalWarning.style.display = 'none';
+                // Good results - all tiers available
                 // Select Very Hot (default best practice)
                 document.getElementById('tierVeryHot').checked = true;
                 document.querySelector('[data-tier="very-hot"]').classList.add('selected');
@@ -1593,27 +1694,12 @@
             const selectedCount = document.getElementById('selectedCountFooter').textContent;
             closeResultsModal();
             
-            // Show success + feedback request
+            // Show success message
             setTimeout(() => {
-                const feedback = confirm(
+                alert(
                     `✓ Mailing sent to ${selectedCount}!\n\n` +
-                    `🧪 BETA FEEDBACK REQUEST:\n` +
-                    `This is a new feature and we value your input.\n\n` +
-                    `Would you like to share feedback about your experience?\n\n` +
-                    `(You can also provide feedback anytime by clicking the "?" help icon)`
+                    `Your campaign is being processed.`
                 );
-                
-                if (feedback) {
-                    alert(
-                        'Thank you! Please email your feedback to:\n\n' +
-                        'beta-feedback@sendjim.com\n\n' +
-                        'Include:\n' +
-                        '• Was "Precision Targeting" easy to understand?\n' +
-                        '• Did the tier selection make sense?\n' +
-                        '• How did results compare to your usual targeting?\n' +
-                        '• Any suggestions for improvement?'
-                    );
-                }
             }, 300);
             
             // This would redirect to your existing campaign flow
@@ -1633,7 +1719,7 @@
                 
                 // Show/hide content
                 if (index === 0) {
-                    // Data Science Targeting
+                    // Predictive Targeting
                     document.querySelector('.controls-panel').style.display = 'block';
                     document.getElementById('standardModeContent').style.display = 'none';
                 } else {
@@ -1644,18 +1730,18 @@
             });
         });
         
-        function switchToDataScience() {
+        function switchToPredictive() {
             document.querySelectorAll('.tab')[0].click();
         }
         
         function showBetaFeedback() {
             alert(
-                '🧪 PRECISION TARGETING BETA FEEDBACK\n\n' +
+                '🧪 PREDICTIVE TARGETING BETA FEEDBACK\n\n' +
                 'Thank you for being a beta tester!\n\n' +
                 'Please email your feedback to: beta-feedback@sendjim.com\n\n' +
                 'We especially want to know:\n' +
-                '• Does "Precision Targeting" clearly describe this feature?\n' +
-                '  (vs "Data Science Targeting" or other names?)\n' +
+                '• Does "Predictive Targeting" clearly describe this feature?\n' +
+                '• Is the "4x more likely to buy" messaging clear and credible?\n' +
                 '• Is the tier selection (Very Hot, Hot, etc.) intuitive?\n' +
                 '• How do results compare to your usual targeting methods?\n' +
                 '• What would make this feature more valuable to you?\n\n' +
