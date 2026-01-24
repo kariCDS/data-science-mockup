@@ -1156,6 +1156,86 @@
             color: #666;
         }
 
+        .loading-card{
+            background:#fff;
+            border-radius:12px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            width:min(560px, calc(100vw - 30px));
+            overflow:hidden;
+            animation: slideUp 0.3s ease;
+            border-top: 4px solid #007afe;
+        }
+
+        .loading-head{
+            padding:18px 20px;
+            border-bottom:1px solid #e9ecef;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            background: #fff;
+        }
+
+        .loading-title{
+            font-size:16px;
+            font-weight:700;
+            color:#222;
+        }
+
+        .loading-body{
+            padding:22px 22px 26px;
+            display:flex;
+            gap:16px;
+            align-items:flex-start;
+        }
+
+        .loading-text{
+            flex:1;
+            padding-top:2px;
+        }
+
+        .loading-sub{
+            font-size:14px;
+            color:#444;
+            line-height:1.4;
+            font-weight:600;
+            margin-bottom:12px;
+        }
+
+        .progress-wrap{
+         margin-top:6px;
+        }
+
+        .progress-track{
+            height:10px;
+            background:#eef1f4;
+            border-radius:999px;
+            overflow:hidden;
+        }
+
+        .progress-fill{
+            height:10px;
+            width: 8%;
+            background: linear-gradient(90deg, #007afe, #00b3ff);
+            border-radius:999px;
+            transition: width 600ms ease;
+        }
+
+        .progress-hint{
+            font-size:12px;
+            color:#777;
+            margin-top:10px;
+        }
+
+        .loading-tip{
+            margin-top:14px;
+            font-size:12px;
+            color:#5b5b5b;
+            background:#f8f9fa;
+            border:1px solid #e9ecef;
+            padding:10px 12px;
+            border-radius:8px;
+        }
+
         .spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #007bff;
@@ -1196,14 +1276,14 @@
         <!-- Mode Toggle -->
         <div class="mode-toggle">
             <span class="mode-toggle-label">Targeting Mode:</span>
-            <div class="mode-option recommended active" onclick="switchMode('circle')">
+           <div class="mode-option recommended active" onclick="switchMode('circle', event)">
                 <input type="radio" name="mode" id="circleMode" checked>
                 <label for="circleMode">
                     Radius
                     <span class="mode-subtitle">Recommended: Best results with larger areas</span>
                 </label>
             </div>
-            <div class="mode-option" onclick="switchMode('custom')">
+            <div class="mode-option" onclick="switchMode('custom', event)">
                 <input type="radio" name="mode" id="customMode">
                 <label for="customMode">
                     Custom Area
@@ -1345,12 +1425,31 @@
     
     <!-- Loading Modal -->
     <div id="loadingModal" class="modal-overlay">
-        <div class="loading-modal">
-            <div class="spinner"></div>
-            <h3 id="loadingTitle">Analyzing your target area...</h3>
-            <p id="loadingMessage">Running predictive models</p>
+    <div class="loading-card">
+        <div class="loading-head">
+        <div class="loading-title" id="loadingTitle">Analyzing your target area…</div>
+        <button class="close-btn" onclick="hideLoadingModal()">×</button>
+        </div>
+
+        <div class="loading-body">
+        <div class="spinner"></div>
+
+        <div class="loading-text">
+            <div class="loading-sub" id="loadingMessage">Running predictive models</div>
+
+            <div class="progress-wrap">
+            <div class="progress-track">
+                <div id="loadingProgressBar" class="progress-fill"></div>
+            </div>
+            <div class="progress-hint" id="loadingHint">This usually takes a few seconds…</div>
+            </div>
+
+            <div class="loading-tip" id="loadingTip">💡 Tip: Larger areas usually generate more Very Hot leads</div>
+        </div>
         </div>
     </div>
+    </div>
+
 
     <!-- Results Modal -->
     <div id="resultsModal" class="modal-overlay">
@@ -1497,12 +1596,12 @@
             console.log('Address updated, centering map:', address);
         }
         
-        function switchMode(mode) {
+       function switchMode(mode, event) {
             currentMode = mode;
-            
+
             document.querySelectorAll('.mode-option').forEach(opt => opt.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
+            if (event?.currentTarget) event.currentTarget.classList.add('active');
+
             if (mode === 'circle') {
                 document.getElementById('circleControls').classList.remove('hidden');
                 document.getElementById('customControls').classList.add('hidden');
@@ -1533,88 +1632,68 @@
         function runAnalysis() {
             // Get industry for personalized messaging
             const industrySelect = document.getElementById('industry');
-            const industryText = industrySelect.options[industrySelect.selectedIndex].text;
-            
+            const industryText = industrySelect.options[industrySelect.selectedIndex]?.text || 'your industry';
+
             showLoadingModal();
-            
-            // Progressive loading messages
-            const messages = [
-                { title: `Analyzing ${industryText.toLowerCase()} demand in this area...`, subtitle: 'Scanning market data' },
-                { title: 'Identifying high-probability prospects...', subtitle: 'Applying predictive models' },
-                { title: 'Calculating conversion likelihood...', subtitle: 'Ranking by purchase intent' },
-                { title: 'Organizing results into tiers...', subtitle: 'Almost done' }
+
+            const steps = [
+                { title: `Analyzing ${industryText.toLowerCase()} demand in this area…`, subtitle: 'Scanning market data', pct: 25 },
+                { title: 'Identifying high-probability prospects…', subtitle: 'Applying predictive models', pct: 55 },
+                { title: 'Calculating conversion likelihood…', subtitle: 'Ranking by purchase intent', pct: 80 },
+                { title: 'Organizing results into tiers…', subtitle: 'Finalizing your list', pct: 95 },
             ];
-            
-            let messageIndex = 0;
-            
-            // Update message every 500ms
-            const messageInterval = setInterval(() => {
-                if (messageIndex < messages.length) {
-                    document.getElementById('loadingTitle').textContent = messages[messageIndex].title;
-                    document.getElementById('loadingMessage').textContent = messages[messageIndex].subtitle;
-                    messageIndex++;
+
+            const tips = [
+                '💡 Tip: Larger areas usually generate more Very Hot leads',
+                '💡 Tip: Start with Very Hot only for best ROI',
+                '💡 Tip: Try 10–15 miles if you’re not seeing Hot tiers',
+            ];
+
+            let i = 0;
+            setLoadingStep(steps[0], tips[0]);
+
+            const STEP_MS = 2200;
+            const FINAL_PAUSE_MS = 1200;
+
+            const interval = setInterval(() => {
+                i++;
+                if (i >= steps.length) {
+                clearInterval(interval);
+
+                // Simulate analysis finishing (swap this with real API call later)
+                setTimeout(() => {
+                    hideLoadingModal();
+
+                    // Demo counts (replace with real results)
+                    const veryHotCount = 627;
+                    const hotCount = 616;
+                    const mediumCount = 798;
+                    const lowCount = 806;
+                    const totalCount = veryHotCount + hotCount + mediumCount + lowCount;
+
+                    updateModalResults(veryHotCount, hotCount, mediumCount, lowCount, totalCount);
+                    showResultsModal();
+                }, FINAL_PAUSE_MS);
+
+                return;
                 }
-            }, 500);
-            
-            setTimeout(() => {
-                clearInterval(messageInterval);
-                hideLoadingModal();
-                
-                // Get radius and calculate results based on size
-                const radius = parseInt(document.getElementById('radius').value);
-                console.log('Running analysis with radius:', radius);
-                let veryHotCount, hotCount, mediumCount, lowCount, totalCount;
-                
-                if (radius < 3) {
-                    // < 3 miles: ONLY Lower tier exists (🚨 CRITICAL red warning)
-                    console.log('🚨 CRITICAL: Radius < 3 miles - Only Lower tier');
-                    veryHotCount = 0;
-                    hotCount = 0;
-                    mediumCount = 0;
-                    lowCount = 156;
-                    totalCount = 156;
-                } else if (radius >= 3 && radius < 5) {
-                    // 3-5 miles: Medium + Lower (⚠️ yellow warning - no hot tiers)
-                    console.log('⚠️ WARNING: Radius 3-5 miles - Medium + Lower only');
-                    veryHotCount = 0;
-                    hotCount = 0;
-                    mediumCount = 234;
-                    lowCount = 312;
-                    totalCount = 546;
-                } else if (radius >= 5 && radius < 10) {
-                    // 5-10 miles: Hot + Medium + Lower (low results - no very hot)
-                    console.log('⚠️ LOW: Radius 5-10 miles - Missing Very Hot tier');
-                    veryHotCount = 0;
-                    hotCount = 428;
-                    mediumCount = 556;
-                    lowCount = 623;
-                    totalCount = 1607;
-                } else if (radius >= 10 && radius < 15) {
-                    // 10-15 miles: All tiers but low Very Hot count (decent)
-                    console.log('✓ DECENT: Radius 10-15 miles - Low Very Hot count');
-                    veryHotCount = 89;
-                    hotCount = 428;
-                    mediumCount = 556;
-                    lowCount = 623;
-                    totalCount = 1696;
-                } else {
-                    // 15+ miles: All tiers with good counts (BEST)
-                    console.log('✓✓ BEST: Radius 15+ miles - All tiers available');
-                    veryHotCount = 627;
-                    hotCount = 616;
-                    mediumCount = 798;
-                    lowCount = 806;
-                    totalCount = 2847;
-                }
-                
-                console.log('Results:', { veryHotCount, hotCount, mediumCount, lowCount, totalCount });
-                
-                // Update modal with calculated counts
-                updateModalResults(veryHotCount, hotCount, mediumCount, lowCount, totalCount);
-                
-                showResultsModal();
-            }, 2000);
+
+                setLoadingStep(steps[i], tips[i % tips.length]);
+            }, STEP_MS);
+
+            function setLoadingStep(step, tip) {
+                const titleEl = document.getElementById('loadingTitle');
+                const msgEl = document.getElementById('loadingMessage');
+                const bar = document.getElementById('loadingProgressBar');
+                const tipEl = document.getElementById('loadingTip');
+
+                if (titleEl) titleEl.textContent = step.title;
+                if (msgEl) msgEl.textContent = step.subtitle;
+                if (bar) bar.style.width = `${step.pct}%`;
+                if (tipEl) tipEl.textContent = tip;
+            }
         }
+
         
         function updateModalResults(veryHot, hot, medium, low, total) {
             // Update tier counts
