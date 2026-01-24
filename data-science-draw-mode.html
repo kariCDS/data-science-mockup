@@ -1173,81 +1173,24 @@
     </style>
 </head>
 <body>
-    <!-- Instruction Banner -->
-    <div id="instructionBanner" style="background: linear-gradient(135deg, #007afe 0%, #005bb5 100%); color: white; padding: 20px; border-bottom: 3px solid #005bb5; position: relative;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <div style="display: flex; align-items: start; gap: 15px;">
-                <div style="font-size: 24px;">📋</div>
-                <div style="flex: 1;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 18px; font-weight: 600;">PREDICTIVE TARGETING - BETA MOCKUP</h3>
-                    <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.5; opacity: 0.95;">
-                        Test the radius logic to see how tier availability changes based on area size:
-                    </p>
-                    <div style="background: rgba(255,255,255,0.15); padding: 12px 15px; border-radius: 6px; margin-top: 10px;">
-                        <div style="font-weight: 600; margin-bottom: 8px;">🧪 TEST THE RADIUS LOGIC:</div>
-                        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-                            <li><strong>&lt;3 miles:</strong> 🚨 CRITICAL (red warning) - Only Cold tier available (156 addresses)</li>
-                            <li><strong>3-5 miles:</strong> ⚠️ WARNING (yellow) - Warm + Cold only (546 addresses)</li>
-                            <li><strong>5-10 miles:</strong> ⚠️ LOW (yellow) - Hot + Warm + Cold (no Very Hot) (1,607 addresses)</li>
-                            <li><strong>10-15 miles:</strong> ✓ DECENT - All tiers, but low Very Hot count (89) (1,696 addresses)</li>
-                            <li><strong>15+ miles:</strong> ✓✓ BEST - All tiers with high counts (627 Very Hot) (2,847 addresses)</li>
-                        </ul>
-                    </div>
-                </div>
-                <button onclick="dismissBanner()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; transition: all 0.2s;">
-                    Dismiss ✕
-                </button>
-            </div>
-        </div>
-    </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="panel-heading-custom">
-            <h4 class="panel-title-custom">
-                Radius Bomb
-            </h4>
-            <button class="feedback-btn" onclick="showBetaFeedback()">
-                <span>🧪</span>
-                Beta Feedback
-            </button>
-        </div>
-        
-        <!-- Tab Navigation -->
-        <div class="tab-navigation">
-            <div class="tab-container">
-                <button class="mode-tab active" id="predictiveTab" onclick="switchToMode('predictive')">
-                    <span class="tab-icon">🎯</span>
-                    <div class="tab-content">
-                        <span class="tab-title">Predictive Targeting</span>
-                        <span class="tab-subtitle">Data-driven targeting</span>
-                    </div>
-                </button>
-                <button class="mode-tab" id="standardTab" onclick="switchToMode('standard')">
-                    <span class="tab-icon">🗺️</span>
-                    <div class="tab-content">
-                        <span class="tab-title">Standard</span>
-                        <span class="tab-subtitle">Manual filters</span>
-                    </div>
-                </button>
-            </div>
-            <button class="compare-link" onclick="window.location.href='data-coverpage.html'">
-                <span>❓</span> Not sure which to use? <strong>Compare Modes</strong>
-            </button>
-        </div>
-    </div>
     
     <!-- Predictive Mode Content -->
     <div id="predictiveModeContent">
         <!-- Controls Panel -->
         <div class="controls-panel">
-            <div class="callout-box" style="padding: 16px 24px;">
-                <h3 style="margin: 0; font-size: 20px; text-align: center; font-weight: 700; line-height: 1.4;">
-                    Find homeowners up to 4x more likely to buy vs. neighborhood saturation
-                </h3>
+            <!-- Simple Header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #e7eaec;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 42px;">🧠</div>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 700; color: #1ab394; margin-bottom: 4px; letter-spacing: 0.3px;">Maximize ROI</div>
+                        <h2 style="font-size: 22px; font-weight: 700; color: #333; margin: 0;">Predictive Targeting</h2>
+                    </div>
+                </div>
+                <button class="feedback-btn" onclick="showBetaFeedback()">
+                    <span>🧪</span>
+                    Beta Feedback
+                </button>
             </div>
         
         <!-- Mode Toggle -->
@@ -1393,21 +1336,6 @@
         </div>
     </div>
     
-    <!-- Standard Mode Content (hidden by default) -->
-    <div id="standardModeContent" class="controls-panel" style="display: none;">
-        <div style="background: white; padding: 40px; border-radius: 8px; text-align: center; max-width: 600px; margin: 0 auto;">
-            <h3 style="font-size: 18px; font-weight: 600; color: #333; margin-bottom: 15px;">Standard Radius Bomb</h3>
-            <p style="font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px;">
-                The standard Radius Bomb feature continues to work exactly as it does today. Draw a circle or custom shape on the map, apply property and demographic filters, and select addresses manually.
-            </p>
-            <p style="font-size: 13px; color: #999; margin-bottom: 25px;">
-                This mode gives you full control over your targeting with manual filter selection.
-            </p>
-            <button class="btn btn-default" onclick="switchToPredictive()" style="padding: 10px 24px;">
-                ← Back to Predictive Targeting
-            </button>
-        </div>
-    </div>
     
     <!-- Map Container -->
     <div class="map-container">
@@ -1419,8 +1347,8 @@
     <div id="loadingModal" class="modal-overlay">
         <div class="loading-modal">
             <div class="spinner"></div>
-            <h3>Analyzing your target area...</h3>
-            <p>Running predictive models to find the hottest prospects</p>
+            <h3 id="loadingTitle">Analyzing your target area...</h3>
+            <p id="loadingMessage">Running predictive models</p>
         </div>
     </div>
 
@@ -1555,72 +1483,8 @@
     </div>
     </div><!-- End Predictive Mode Content -->
     
-    <!-- Standard Mode Content -->
-    <div id="standardModeContent" >
-        <div class="controls-panel">
-            <div class="callout-box" style="padding: 16px 24px; background: linear-gradient(135deg, #007afe 0%, #005bb5 100%);">
-                <h3 style="margin: 0; font-size: 20px; text-align: center; font-weight: 700; line-height: 1.4;">
-                    Full manual control - draw shapes and apply your own filters
-                </h3>
-            </div>
-            
-            <div style="padding: 40px; text-align: center; color: #666;">
-                <h2 style="font-size: 24px; margin-bottom: 20px;">🗺️ Standard Radius Bomb</h2>
-                <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-                    This is where the standard radius bomb interface would appear.<br>
-                    Draw custom shapes, apply manual filters, and select addresses yourself.
-                </p>
-                <p style="font-size: 14px; color: #999;">
-                   No changes to be made
-                </p>
-            </div>
-        </div>
-    </div><!-- End Standard Mode Content -->
     
     <script>
-        // Mode switching functionality
-        function switchToMode(mode) {
-            const predictiveTab = document.getElementById('predictiveTab');
-            const standardTab = document.getElementById('standardTab');
-            const predictiveContent = document.getElementById('predictiveModeContent');
-            const standardContent = document.getElementById('standardModeContent');
-            
-            if (mode === 'predictive') {
-                // Show predictive, hide standard
-                predictiveTab.classList.add('active');
-                standardTab.classList.remove('active');
-                predictiveContent.style.display = 'block';
-                standardContent.style.display = 'none';
-                
-                // Update URL without reload
-                const url = new URL(window.location);
-                url.searchParams.set('mode', 'predictive');
-                window.history.pushState({}, '', url);
-            } else if (mode === 'standard') {
-                // Show standard, hide predictive
-                standardTab.classList.add('active');
-                predictiveTab.classList.remove('active');
-                standardContent.style.display = 'block';
-                predictiveContent.style.display = 'none';
-                
-                // Update URL without reload
-                const url = new URL(window.location);
-                url.searchParams.set('mode', 'standard');
-                window.history.pushState({}, '', url);
-            }
-        }
-        
-        // Check URL parameters on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const mode = urlParams.get('mode');
-            
-            if (mode === 'standard') {
-                switchToMode('standard');
-            }
-            // Default is predictive, so no action needed if mode is null or 'predictive'
-        });
-        
         let currentMode = 'circle';
         let selectedTiers = new Set(['very-hot']);
         
@@ -1667,9 +1531,33 @@
         }
         
         function runAnalysis() {
+            // Get industry for personalized messaging
+            const industrySelect = document.getElementById('industry');
+            const industryText = industrySelect.options[industrySelect.selectedIndex].text;
+            
             showLoadingModal();
             
+            // Progressive loading messages
+            const messages = [
+                { title: `Analyzing ${industryText.toLowerCase()} demand in this area...`, subtitle: 'Scanning market data' },
+                { title: 'Identifying high-probability prospects...', subtitle: 'Applying predictive models' },
+                { title: 'Calculating conversion likelihood...', subtitle: 'Ranking by purchase intent' },
+                { title: 'Organizing results into tiers...', subtitle: 'Almost done' }
+            ];
+            
+            let messageIndex = 0;
+            
+            // Update message every 500ms
+            const messageInterval = setInterval(() => {
+                if (messageIndex < messages.length) {
+                    document.getElementById('loadingTitle').textContent = messages[messageIndex].title;
+                    document.getElementById('loadingMessage').textContent = messages[messageIndex].subtitle;
+                    messageIndex++;
+                }
+            }, 500);
+            
             setTimeout(() => {
+                clearInterval(messageInterval);
                 hideLoadingModal();
                 
                 // Get radius and calculate results based on size
@@ -1922,35 +1810,12 @@
             document.getElementById('heatMapOverlay').classList.remove('show');
         }
         
-        // Tab switching
-        document.querySelectorAll('.tab').forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                // Update active tab
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Show/hide content
-                if (index === 0) {
-                    // Predictive Targeting
-                    document.querySelector('.controls-panel').style.display = 'block';
-                    document.getElementById('standardModeContent').style.display = 'none';
-                } else {
-                    // Standard (Manual Filters)
-                    document.querySelector('.controls-panel').style.display = 'none';
-                    document.getElementById('standardModeContent').style.display = 'block';
-                }
-            });
-        });
-        
-        function switchToPredictive() {
-            document.querySelectorAll('.tab')[0].click();
-        }
         
         function showBetaFeedback() {
             alert(
                 '🧪 PREDICTIVE TARGETING BETA FEEDBACK\n\n' +
                 'Thank you for being a beta tester!\n\n' +
-                'Please email your feedback to: beta-feedback@sendjim.com\n\n' +
+                'Clicking OK will open a Google Form where you can share your feedback.\n\n' +
                 'We especially want to know:\n' +
                 '• Does "Predictive Targeting" clearly describe this feature?\n' +
                 '• Is the "4x more likely to buy" messaging clear and credible?\n' +
@@ -1959,16 +1824,7 @@
                 '• What would make this feature more valuable to you?\n\n' +
                 'Your input helps us improve before wider release!'
             );
-        }
-        
-        function dismissBanner() {
-            const banner = document.getElementById('instructionBanner');
-            banner.style.transition = 'all 0.3s ease-out';
-            banner.style.opacity = '0';
-            banner.style.transform = 'translateY(-20px)';
-            setTimeout(() => {
-                banner.style.display = 'none';
-            }, 300);
+            // In production: window.open('https://forms.google.com/your-form-id', '_blank');
         }
         
         // Demo: Auto-trigger custom shape analysis
