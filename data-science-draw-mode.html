@@ -1500,7 +1500,7 @@
                         🔥 <strong>Best results:</strong> Mail to Very Hot only OR widen your radius for more Very Hot prospects
                     </p>
                     
-                    <div class="tier-option selected" onclick="toggleTier(this, 'very-hot')" data-count="627" data-tier="very-hot">
+                    <div class="tier-option selected" onclick="toggleTier(this, 'very-hot', event)" data-count="627" data-tier="very-hot">
                         <input type="checkbox" id="tierVeryHot" checked>
                         <div class="tier-info">
                             <div class="tier-details">
@@ -1512,7 +1512,7 @@
                         <div class="tier-count">627</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'hot')" data-count="616" data-tier="hot">
+                    <div class="tier-option" onclick="toggleTier(this, 'hot', event)" data-count="616" data-tier="hot">
                         <input type="checkbox" id="tierHot">
                         <div class="tier-info">
                             <div class="tier-details">
@@ -1524,7 +1524,7 @@
                         <div class="tier-count">616</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'medium')" data-count="798" data-tier="warm">
+                    <div class="tier-option" onclick="toggleTier(this, 'medium', event)" data-count="798" data-tier="warm">
                         <input type="checkbox" id="tierWarm">
                         <div class="tier-info">
                             <div class="tier-details">
@@ -1536,7 +1536,7 @@
                         <div class="tier-count">798</div>
                     </div>
                     
-                    <div class="tier-option" onclick="toggleTier(this, 'low')" data-count="806" data-tier="cold">
+                    <div class="tier-option" onclick="toggleTier(this, 'low', event)" data-count="806" data-tier="cold">
                         <input type="checkbox" id="tierCold">
                         <div class="tier-info">
                             <div class="tier-details">
@@ -1660,16 +1660,58 @@
                 if (i >= steps.length) {
                 clearInterval(interval);
 
-                // Simulate analysis finishing (swap this with real API call later)
+                // Calculate results based on radius size
                 setTimeout(() => {
                     hideLoadingModal();
 
-                    // Demo counts (replace with real results)
-                    const veryHotCount = 627;
-                    const hotCount = 616;
-                    const mediumCount = 798;
-                    const lowCount = 806;
-                    const totalCount = veryHotCount + hotCount + mediumCount + lowCount;
+                    // Get radius and calculate results based on size
+                    const radius = parseInt(document.getElementById('radius').value);
+                    console.log('Running analysis with radius:', radius);
+                    let veryHotCount, hotCount, mediumCount, lowCount, totalCount;
+                    
+                    if (radius < 3) {
+                        // < 3 miles: ONLY Cold tier exists (🚨 CRITICAL red warning)
+                        console.log('🚨 CRITICAL: Radius < 3 miles - Only Cold tier');
+                        veryHotCount = 0;
+                        hotCount = 0;
+                        mediumCount = 0;
+                        lowCount = 156;
+                        totalCount = 156;
+                    } else if (radius >= 3 && radius < 5) {
+                        // 3-4.99 miles: Warm + Cold (⚠️ yellow warning - no hot tiers)
+                        console.log('⚠️ WARNING: Radius 3-4.99 miles - Warm + Cold only');
+                        veryHotCount = 0;
+                        hotCount = 0;
+                        mediumCount = 234;
+                        lowCount = 312;
+                        totalCount = 546;
+                    } else if (radius >= 5 && radius < 10) {
+                        // 5-9.99 miles: Hot + Warm + Cold (no Very Hot)
+                        console.log('⚠️ LOW: Radius 5-9.99 miles - Missing Very Hot tier');
+                        veryHotCount = 0;
+                        hotCount = 391;
+                        mediumCount = 523;
+                        lowCount = 693;
+                        totalCount = 1607;
+                    } else if (radius >= 10 && radius < 15) {
+                        // 10-14.99 miles: All tiers but low Very Hot count (decent)
+                        console.log('✓ DECENT: Radius 10-14.99 miles - Low Very Hot count');
+                        veryHotCount = 89;
+                        hotCount = 442;
+                        mediumCount = 571;
+                        lowCount = 594;
+                        totalCount = 1696;
+                    } else {
+                        // 15+ miles: All tiers with good counts (BEST)
+                        console.log('✓✓ BEST: Radius 15+ miles - All tiers available');
+                        veryHotCount = 627;
+                        hotCount = 716;
+                        mediumCount = 849;
+                        lowCount = 655;
+                        totalCount = 2847;
+                    }
+                    
+                    console.log('Results:', { veryHotCount, hotCount, mediumCount, lowCount, totalCount });
 
                     updateModalResults(veryHotCount, hotCount, mediumCount, lowCount, totalCount);
                     showResultsModal();
@@ -1760,10 +1802,20 @@
             updateSelectedCount();
         }
         
-        function toggleTier(element, tierId) {
+        function toggleTier(element, tierId, event) {
+            // If the click came directly from the checkbox, let it handle itself naturally
+            // Otherwise (click on panel), toggle the checkbox programmatically
             const checkbox = element.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
             
+            if (event && event.target === checkbox) {
+                // Click was directly on checkbox - it already toggled naturally
+                // Just update our state to match
+            } else {
+                // Click was on the panel - toggle the checkbox
+                checkbox.checked = !checkbox.checked;
+            }
+            
+            // Update UI and state based on checkbox state
             if (checkbox.checked) {
                 element.classList.add('selected');
                 selectedTiers.add(tierId);
