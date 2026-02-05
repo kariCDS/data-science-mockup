@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendJim Admin - Pricing and Samples</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+        
+        .section-box {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 500;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .pricing-row {
+            margin-bottom: 10px;
+        }
+        
+        .pricing-row label {
+            text-align: right;
+            padding-top: 7px;
+            color: #666;
+            font-size: 13px;
+            font-weight: normal;
+        }
+        
+        .form-control {
+            font-size: 13px;
+        }
+        
+        .note-text {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .save-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 3px;
+            font-size: 13px;
+            float: right;
+            margin-bottom: 15px;
+        }
+        
+        .save-btn:hover {
+            background-color: #1976d2;
+        }
+        
+        .upsell-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            clear: both;
+        }
+        
+        .upsell-header-row {
+            margin-bottom: 15px;
+        }
+        
+        .upsell-title {
+            font-weight: 500;
+            font-size: 14px;
+            color: #333;
+            display: inline-block;
+        }
+        
+        .upsell-controls {
+            float: right;
+        }
+        
+        .sequence-badge {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        
+        .upsell-item.disabled {
+            opacity: 0.5;
+        }
+        
+        .upsell-item.disabled .sequence-badge {
+            display: none;
+        }
+        
+        .sequence-btn {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 2px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            color: #666;
+            margin-right: 4px;
+        }
+        
+        .sequence-btn:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .sequence-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #4CAF50;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .upsell-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            font-size: 12px;
+        }
+        
+        .help-text {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        .info-note {
+            background-color: #e3f2fd;
+            border-left: 3px solid #2196f3;
+            padding: 10px;
+            margin: 10px 0 15px 0;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Pricing and Samples</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Account Types</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">EDDM Coupon Code</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Design Mover</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Checkout Pages</a>
+            </li>
+        </ul>
+        
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+                <!-- Manage Credits Section -->
+                <div class="section-box">
+                    <div class="section-header">
+                        🔧 Manage Credits For Other Template Types
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Small Postcards</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="1.00">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Medium Postcards</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="1.50">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Large Postcards</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="1.75">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Jumbo Postcards</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="5.00">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Letters</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="2.00">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Letter Full Window</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="2.00">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Hand Written Cards</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="6.00">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Voicemail</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="0.50">
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-row row">
+                        <label class="col-sm-6 col-form-label">Text Messages</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="0.10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <!-- Update Products Section -->
+                <div class="section-box">
+                    <div class="section-header">
+                        🛒 Update Products
+                    </div>
+                    <p class="text-center" style="color: #999; padding: 40px 0; margin: 0;">No Products Found</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customer Upsells Section - Full Width -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-box">
+                    <div class="section-header">
+                        🎁 Customer Upsells
+                    </div>
+                    
+                    <button class="save-btn">Save</button>
+                    
+                    <p class="note-text">Configure upsell offers shown to customers after checkout. Use arrow buttons to reorder sequence.</p>
+                    
+                    <!-- Design Service Upsell -->
+                    <div class="upsell-item" data-sequence="1">
+                        <div class="upsell-header-row clearfix">
+                            <span class="upsell-title">Design Service Upsell</span>
+                            <div class="upsell-controls">
+                                <span class="sequence-badge">Shows First</span>
+                                <button class="sequence-btn" onclick="moveUp(this)" disabled>↑</button>
+                                <button class="sequence-btn" onclick="moveDown(this)">↓</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked onchange="toggleUpsellDetails(this)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="upsell-details">
+                            <div class="info-note">
+                                ⓘ This is a fixed upsell offer. The design team creates custom postcard designs to increase response rates and save customers time. This offer is not configurable - toggle off to disable.
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Current Offer Details</label>
+                                <p style="margin: 5px 0; color: #666; font-size: 13px;"><strong>3 Custom Card Designs - $250 OFF</strong></p>
+                                <p style="margin: 5px 0; color: #666; font-size: 13px;">Original Price: $819 → You Pay: $569</p>
+                                <p style="margin: 5px 0; color: #666; font-size: 13px;">Includes video presentation and design team support</p>
+                            </div>
+                            
+                            <!-- Preview Info -->
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                                <p class="help-text" style="margin-bottom: 8px;">This upsell uses your existing design service page with video and custom styling.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Credits Upsell -->
+                    <div class="upsell-item" data-sequence="2">
+                        <div class="upsell-header-row clearfix">
+                            <span class="upsell-title">Credits Upsell</span>
+                            <div class="upsell-controls">
+                                <span class="sequence-badge">Shows Second</span>
+                                <button class="sequence-btn" onclick="moveUp(this)">↑</button>
+                                <button class="sequence-btn" onclick="moveDown(this)" disabled>↓</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked onchange="toggleUpsellDetails(this)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="upsell-details">
+                            <div class="mb-3">
+                                <label class="form-label">Offer Headline</label>
+                                <input type="text" class="form-control" id="offerHeadline" value="Limited Time: $100 Off Credits!">
+                                <p class="help-text">Main headline shown to customer</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Offer Description</label>
+                                <textarea class="form-control" id="offerDescription" rows="3">Get started strong! Purchase 1,000 credits now and save $100. This exclusive offer is only available during signup.</textarea>
+                                <p class="help-text">Detailed description of the offer</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Credit Amount</label>
+                                        <input type="number" class="form-control" id="creditAmount" value="1000">
+                                        <p class="help-text">Number of credits in offer</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Discount Type</label>
+                                        <select class="form-control" id="discountType">
+                                            <option value="dollar">Dollar Amount</option>
+                                            <option value="percentage">Percentage</option>
+                                        </select>
+                                        <p class="help-text">Type of discount</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Discount Value</label>
+                                        <input type="number" class="form-control" id="discountValue" value="100" step="0.01">
+                                        <p class="help-text">Amount ($) or percent (%)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Button Text</label>
+                                <input type="text" class="form-control" id="buttonText" value="Yes! Add 1,000 Credits & Save $100">
+                                <p class="help-text">Call-to-action button text</p>
+                            </div>
+                            
+                            <!-- Preview Button -->
+                            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="previewUpsell()" style="background-color: #0066ff; border-color: #0066ff;">
+                                    Preview Customer Page
+                                </button>
+                                <p class="help-text" style="margin-top: 8px;">Opens a preview of how customers will see this offer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleUpsellDetails(checkbox) {
+            const upsellItem = checkbox.closest('.upsell-item');
+            const details = upsellItem.querySelector('.upsell-details');
+            
+            if (checkbox.checked) {
+                details.style.display = 'block';
+                upsellItem.classList.remove('disabled');
+            } else {
+                details.style.display = 'none';
+                upsellItem.classList.add('disabled');
+            }
+            
+            updateSequenceBadges();
+        }
+        
+        function moveUp(button) {
+            const currentItem = button.closest('.upsell-item');
+            const prevItem = currentItem.previousElementSibling;
+            
+            if (prevItem && prevItem.classList.contains('upsell-item')) {
+                currentItem.parentNode.insertBefore(currentItem, prevItem);
+                updateSequenceBadges();
+            }
+        }
+        
+        function moveDown(button) {
+            const currentItem = button.closest('.upsell-item');
+            const nextItem = currentItem.nextElementSibling;
+            
+            if (nextItem && nextItem.classList.contains('upsell-item')) {
+                currentItem.parentNode.insertBefore(nextItem, currentItem);
+                updateSequenceBadges();
+            }
+        }
+        
+        function updateSequenceBadges() {
+            const items = document.querySelectorAll('.upsell-item');
+            const sequenceLabels = ['Shows First', 'Shows Second', 'Shows Third', 'Shows Fourth'];
+            let enabledIndex = 0;
+            
+            items.forEach((item, index) => {
+                const badge = item.querySelector('.sequence-badge');
+                const buttons = item.querySelectorAll('.sequence-btn');
+                const upBtn = buttons[0];
+                const downBtn = buttons[1];
+                
+                // Only show sequence for enabled items
+                if (!item.classList.contains('disabled')) {
+                    badge.textContent = sequenceLabels[enabledIndex] || `Position ${enabledIndex + 1}`;
+                    enabledIndex++;
+                }
+                
+                item.setAttribute('data-sequence', index + 1);
+                
+                upBtn.disabled = index === 0;
+                downBtn.disabled = index === items.length - 1;
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSequenceBadges();
+        });
+        
+        function previewUpsell() {
+            // Get the discount type to determine which preview to show
+            const discountType = document.getElementById('discountType').value;
+            
+            // In production, this would generate a preview with the actual form values
+            // For this prototype, we'll open the appropriate example page
+            let previewUrl;
+            if (discountType === 'dollar') {
+                previewUrl = 'credits-upsell-dollar.html';
+            } else {
+                previewUrl = 'credits-upsell-percent.html';
+            }
+            
+            // Open preview in new tab
+            window.open(previewUrl, '_blank');
+            
+            // Note: In production, you would:
+            // 1. Get all form values
+            // 2. Calculate pricing based on settings
+            // 3. Generate preview dynamically or pass parameters to preview page
+            console.log('Preview opened with discount type:', discountType);
+        }
+    </script>
+</body>
+</html>
