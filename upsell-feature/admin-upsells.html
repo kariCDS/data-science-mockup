@@ -417,12 +417,33 @@
                                 <p class="help-text">Call-to-action button text</p>
                             </div>
                             
+                            <div class="mb-3">
+                                <label class="form-label">Minimum Price Per Credit</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="minPricePerCredit" value="0.70" step="0.01" min="0">
+                                </div>
+                                <p class="help-text">Don't offer this upsell if the customer's final price per credit would be less than or equal to this amount (prevents offers below break-even)</p>
+                            </div>
+                            
                             <!-- Preview Button -->
                             <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="previewUpsell()" style="background-color: #0066ff; border-color: #0066ff;">
-                                    Preview Customer Page
-                                </button>
-                                <p class="help-text" style="margin-top: 8px;">Opens a preview of how customers will see this offer</p>
+                                <div class="row align-items-end">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Preview at Customer's Credit Price</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" id="previewCreditPrice" value="0.90" step="0.01" min="0.01" placeholder="0.90">
+                                            <span class="input-group-text">per credit</span>
+                                        </div>
+                                        <p class="help-text">Examples: $0.84 (Starter), $0.90 (Growth), $1.20 (Pro), $1.74 (Enterprise)</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="previewUpsell()" style="background-color: #0066ff; border-color: #0066ff;">
+                                            Preview Customer Page
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -497,11 +518,28 @@
         });
         
         function previewUpsell() {
-            // Get the discount type to determine which preview to show
+            // Get form values
+            const creditAmount = parseInt(document.getElementById('creditAmount').value);
             const discountType = document.getElementById('discountType').value;
+            const discountValue = parseFloat(document.getElementById('discountValue').value);
+            const previewCreditPrice = parseFloat(document.getElementById('previewCreditPrice').value);
+            const minPricePerCredit = parseFloat(document.getElementById('minPricePerCredit').value);
             
-            // In production, this would generate a preview with the actual form values
-            // For this prototype, we'll open the appropriate example page
+            // Calculate pricing
+            const basePrice = creditAmount * previewCreditPrice;
+            const savingsAmount = discountType === 'dollar' 
+                ? discountValue 
+                : basePrice * (discountValue / 100);
+            const finalPrice = basePrice - savingsAmount;
+            const finalPricePerCredit = finalPrice / creditAmount;
+            
+            // Check if offer would be blocked
+            if (finalPricePerCredit <= minPricePerCredit) {
+                alert(`⚠️ OFFER WOULD BE BLOCKED\n\nAt $${previewCreditPrice.toFixed(2)} per credit:\n• Base Price: $${basePrice.toFixed(2)}\n• Discount: -$${savingsAmount.toFixed(2)}\n• Final Price: $${finalPrice.toFixed(2)}\n• Final Price Per Credit: $${finalPricePerCredit.toFixed(2)}\n\n❌ This is at or below your minimum ($${minPricePerCredit.toFixed(2)} per credit).\n\nThe upsell would NOT be shown to customers at this tier.`);
+                return;
+            }
+            
+            // Open appropriate preview page (no alert needed)
             let previewUrl;
             if (discountType === 'dollar') {
                 previewUrl = 'credits-upsell-dollar.html';
@@ -509,14 +547,10 @@
                 previewUrl = 'credits-upsell-percent.html';
             }
             
-            // Open preview in new tab
             window.open(previewUrl, '_blank');
             
-            // Note: In production, you would:
-            // 1. Get all form values
-            // 2. Calculate pricing based on settings
-            // 3. Generate preview dynamically or pass parameters to preview page
-            console.log('Preview opened with discount type:', discountType);
+            // Note: In production, you would pass the calculated values as URL parameters
+            // to dynamically generate the preview with actual numbers
         }
     </script>
 </body>

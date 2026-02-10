@@ -406,9 +406,9 @@
                 
                 <!-- Urgency Banner -->
                 <div class="urgency">
-                    <div class="urgency-icon">⏰</div>
+                    <div class="urgency-icon">⚡</div>
                     <div class="urgency-text">
-                        <strong>This offer expires in 10 minutes</strong> and won't be available again. Lock in your savings now!
+                        <strong>This offer disappears when you leave this page</strong> and won't be available again. Lock in your savings now!
                     </div>
                 </div>
                 
@@ -532,25 +532,6 @@
                 // window.location.href = '/welcome';
             }
         }
-        
-        // Optional: Add countdown timer
-        let timeLeft = 600; // 10 minutes in seconds
-        
-        function updateTimer() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            
-            if (timeLeft <= 0) {
-                // Offer expired - could auto-decline or remove discount
-                console.log('Offer expired');
-            } else {
-                timeLeft--;
-                setTimeout(updateTimer, 1000);
-            }
-        }
-        
-        // Start timer when page loads
-        updateTimer();
     </script>
 </body>
 </html>
