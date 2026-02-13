@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Dashboard — CRM Status Enhancements Spec</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+
+  <!-- Spec Header -->
+  <div class="bg-white border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 py-5">
+      <div class="flex items-center gap-3 mb-1">
+        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+        <h1 class="text-lg font-semibold text-gray-900" style="font-family: system-ui">
+          ROI Dashboard — CRM Status Enhancements
+        </h1>
+      </div>
+      <p class="text-sm text-gray-500 ml-5">
+        Visual spec · Toggle states below to preview each scenario
+      </p>
+    </div>
+  </div>
+
+  <!-- State Switcher -->
+  <div class="max-w-6xl mx-auto px-6 pt-5 pb-2">
+    <div class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Preview State</div>
+    <div id="state-buttons" class="flex flex-wrap gap-2"></div>
+    <div id="state-description" class="mt-2 text-sm text-gray-500 bg-white border border-gray-200 rounded-lg px-4 py-2.5 inline-block"></div>
+  </div>
+
+  <!-- Dashboard Preview -->
+  <div class="max-w-6xl mx-auto px-6 py-4">
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+
+      <!-- ZONE 1a: Filters -->
+      <div class="p-5 border-b border-gray-100">
+        <div class="flex items-center flex-wrap gap-3">
+          <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 bg-white min-w-[12rem]">
+            <span class="text-xs text-gray-400 block -mt-0.5">Select Company</span>
+            My Garage Floor Guys
+          </div>
+          <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 bg-white min-w-[10rem]">
+            <span class="text-xs text-gray-400 block -mt-0.5">Select Mailing Type</span>
+            All Types
+          </div>
+          <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 bg-white min-w-[10rem]">
+            <span class="text-xs text-gray-400 block -mt-0.5">Select Template Type</span>
+            All Template Types
+          </div>
+          <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 bg-white min-w-[9rem]">
+            <span class="text-xs text-gray-400 block -mt-0.5">Select Templates</span>
+            All Templates
+          </div>
+          <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 bg-white min-w-[9rem]">
+            <span class="text-xs text-gray-400 block -mt-0.5">Date</span>
+            Feb 1, 2021 – Feb 12, 2026
+          </div>
+        </div>
+      </div>
+
+      <!-- ZONE 1b: CRM Status Bar -->
+      <div id="zone1-status-bar" class="px-5 py-2.5 border-b border-gray-100 bg-gray-50/60"></div>
+
+      <!-- Existing Metrics -->
+      <div id="metrics-area" class="p-5 bg-gray-50/50"></div>
+
+      <!-- ZONE 2: CRM Connection Details (bottom) -->
+      <div class="border-t border-gray-200 bg-white">
+        <div id="zone2-details" class="p-5"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Implementation Notes -->
+  <div class="max-w-6xl mx-auto px-6 py-6">
+    <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <h2 class="text-base font-semibold text-gray-900 mb-4">Implementation Notes</h2>
+      <div class="space-y-4 text-sm text-gray-700">
+
+        <div>
+          <h3 class="font-semibold text-gray-800 mb-1">Zone 1 — CRM Status Bar (Below Filters)</h3>
+          <p class="leading-relaxed">A slim horizontal bar that sits between the filter row and the metric cards. Separated from the filters because they serve different purposes — filters control what data you see, the status bar tells you about data quality and freshness. The bar contains: the CRM badge (left), inline connection dates (left), last sync timestamp (right), and a Manual Upload button (right). On smaller screens, the bar wraps naturally with flexbox.</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-800 mb-1">Zone 2 — Connection Details (Bottom)</h3>
+          <p class="leading-relaxed">Appears below the mailing type breakdown table. Includes a contextual alert banner for actionable states (disconnected, backfilling, never connected) plus a detail grid showing all connection metadata. The "Manual Upload" button is always visible here and links to the separate upload flow. The Baremetrics-inspired "last updated" info is captured in the Last Sync row.</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-800 mb-1">State Logic</h3>
+          <div class="bg-gray-50 rounded-lg p-4 font-mono text-xs leading-relaxed">
+            <div class="text-gray-400">// Determine state from backend data:</div>
+            <div class="mt-1"><span class="text-emerald-600">CONNECTED_SYNCING</span> → crm_connection exists AND is_active = true AND backfill_complete = true</div>
+            <div><span class="text-amber-600">BACKFILL_IN_PROGRESS</span> → crm_connection exists AND is_active = true AND backfill_complete = false</div>
+            <div><span class="text-red-600">DISCONNECTED</span> → crm_connection exists AND is_active = false</div>
+            <div><span class="text-blue-600">MANUAL_ONLY</span> → no crm_connection AND manual_upload_date exists</div>
+            <div><span class="text-gray-500">NEVER_CONNECTED</span> → no crm_connection AND no manual_upload_date</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-800 mb-1">Data Fields Needed</h3>
+          <p class="leading-relaxed">
+            The backend will need to expose:
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">crm_name</code>,
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">connection_date</code>,
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">disconnection_date</code> (nullable),
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">last_sync_at</code>,
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">sync_method</code> (string: "real-time", "daily", "hourly", etc.),
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">backfill_complete</code> (boolean),
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">is_active</code> (boolean),
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">manual_upload_date</code> (nullable, most recent),
+            <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">manual_upload_count</code> (integer).
+            For multi-CRM support, this should be an array, though the UI can initially render the primary/most recent connection.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-800 mb-1">Acceptance Criteria</h3>
+          <div class="bg-gray-50 rounded-lg p-4 space-y-1.5">
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> CRM status bar visible between filters and metrics, showing connection state at a glance</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> Status bar includes: CRM badge, connection dates inline, last sync timestamp, Manual Upload button</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> Connection details section at bottom shows: CRM name, connection/disconnection dates, sync method, last sync, backfill status, last manual upload date (with count)</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> Contextual alert banners appear for: disconnected, backfill in progress, never connected</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> "Manual Upload" button visible in the detail section, links to upload flow</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> Admin can immediately tell why metrics show zeros (no CRM vs. bad ROI vs. backfill pending)</div>
+            <div class="flex gap-2"><span class="text-emerald-500">✓</span> All five connection states render correctly with appropriate colors and messaging</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+const states = [
+  {
+    id: "never_connected",
+    label: "Never Connected",
+    description: "No CRM has ever been linked to this company",
+    badgeText: "No CRM Connected",
+    badgeColor: "bg-gray-100 text-gray-500 border-gray-200",
+    icon: "○",
+    iconColor: "text-gray-400",
+    spinning: false,
+    details: {
+      crm: "N/A",
+      connectionDate: "N/A",
+      disconnectionDate: null,
+      syncMethod: null,
+      lastSync: "N/A",
+      backfillStatus: "N/A",
+      manualUpload: "N/A",
+    },
+  },
+  {
+    id: "connected_syncing",
+    label: "Connected & Syncing",
+    description: "CRM is actively connected and syncing data on schedule",
+    badgeText: "CRM: Jobber",
+    badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    icon: "●",
+    iconColor: "text-emerald-500",
+    spinning: false,
+    details: {
+      crm: "Jobber",
+      connectionDate: "Mar 15, 2024",
+      disconnectionDate: null,
+      syncMethod: "Real-time (webhooks)",
+      lastSync: "2 min ago (Feb 12, 2026 at 12:30 PM)",
+      backfillStatus: "Complete",
+      manualUpload: "N/A",
+    },
+  },
+  {
+    id: "backfill_in_progress",
+    label: "Backfill In Progress",
+    description: "CRM just connected, historical data is still being imported",
+    badgeText: "CRM: ServiceTitan",
+    badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
+    icon: "◐",
+    iconColor: "text-amber-500",
+    spinning: true,
+    details: {
+      crm: "ServiceTitan",
+      connectionDate: "Feb 10, 2026",
+      disconnectionDate: null,
+      syncMethod: "Real-time (webhooks)",
+      lastSync: "Backfill in progress…",
+      backfillStatus: "In Progress",
+      manualUpload: "N/A",
+    },
+  },
+  {
+    id: "disconnected",
+    label: "Disconnected",
+    description: "CRM was previously connected but the connection was lost or removed",
+    badgeText: "CRM: Housecall Pro",
+    badgeColor: "bg-red-50 text-red-600 border-red-200",
+    icon: "●",
+    iconColor: "text-red-400",
+    spinning: false,
+    details: {
+      crm: "Housecall Pro",
+      connectionDate: "Jun 8, 2023",
+      disconnectionDate: "Nov 14, 2024",
+      syncMethod: "Daily sync",
+      lastSync: "Nov 14, 2024 at 3:15 PM",
+      backfillStatus: "Complete",
+      manualUpload: "N/A",
+    },
+  },
+  {
+    id: "manual_only",
+    label: "Manual Upload Only",
+    description: "No live CRM connection — data was imported via CSV upload",
+    badgeText: "Manual Upload Only",
+    badgeColor: "bg-blue-50 text-blue-600 border-blue-200",
+    icon: "↑",
+    iconColor: "text-blue-500",
+    spinning: false,
+    details: {
+      crm: "N/A",
+      connectionDate: "N/A",
+      disconnectionDate: null,
+      syncMethod: null,
+      lastSync: "N/A",
+      backfillStatus: "N/A",
+      manualUpload: "Jan 22, 2026 (3 uploads total)",
+    },
+  },
+];
+
+let activeState = 1;
+
+function esc(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderButtons() {
+  const container = document.getElementById('state-buttons');
+  container.innerHTML = states.map((s, i) =>
+    `<button onclick="setActive(${i})" class="px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+      activeState === i
+        ? 'bg-gray-900 text-white shadow-sm'
+        : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
+    }">${esc(s.label)}</button>`
+  ).join('');
+}
+
+function renderDescription() {
+  const state = states[activeState];
+  document.getElementById('state-description').innerHTML =
+    `<span class="font-medium text-gray-700">${esc(state.label)}:</span> ${esc(state.description)}`;
+}
+
+function statusDotHTML(state) {
+  if (state.spinning) {
+    return `<span class="inline-flex items-center justify-center w-4 h-4"><span class="animate-spin text-amber-500 text-sm">◐</span></span>`;
+  }
+  return `<span class="text-sm ${state.iconColor}">${esc(state.icon)}</span>`;
+}
+
+function renderZone1() {
+  const state = states[activeState];
+  let connectionInfo = '';
+  if (state.details.connectionDate !== 'N/A') {
+    connectionInfo = `<span class="text-xs text-gray-400">Connected ${esc(state.details.connectionDate)}`;
+    if (state.details.disconnectionDate) {
+      connectionInfo += ` <span class="text-red-400">· Disconnected ${esc(state.details.disconnectionDate)}</span>`;
+    }
+    connectionInfo += `</span>`;
+  }
+
+  let syncInfo = '';
+  if (state.id === 'connected_syncing') {
+    syncInfo = `<span class="text-xs text-gray-500">Last updated: ${esc(state.details.lastSync)}</span>`;
+  } else if (state.id === 'backfill_in_progress') {
+    syncInfo = `<span class="text-xs text-amber-600 font-medium flex items-center gap-1.5"><span class="animate-spin">◐</span> Backfill in progress…</span>`;
+  } else if (state.id === 'manual_only') {
+    syncInfo = `<span class="text-xs text-gray-500">Last upload: ${esc(state.details.manualUpload)}</span>`;
+  } else if (state.id === 'disconnected') {
+    syncInfo = `<span class="text-xs text-red-500">Last sync: ${esc(state.details.lastSync)}</span>`;
+  }
+
+  document.getElementById('zone1-status-bar').innerHTML = `
+    <div class="flex items-center gap-2 mb-2">
+      <div class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded">NEW</div>
+      <span class="text-xs font-medium text-blue-600">Zone 1 — CRM Status Bar</span>
+    </div>
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium ${state.badgeColor}">
+          ${statusDotHTML(state)}
+          <span>${esc(state.badgeText)}</span>
+        </div>
+        ${connectionInfo}
+      </div>
+      <div class="flex items-center gap-4">
+        ${syncInfo}
+        <button class="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 hover:bg-blue-100 transition-colors">
+          <span>↑</span> Manual Upload
+        </button>
+      </div>
+    </div>`;
+}
+
+function metricCard(label, value, icon) {
+  return `<div class="bg-white rounded-lg border border-gray-200 p-4 flex items-start gap-3">
+    <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500 text-sm flex-shrink-0">${icon}</div>
+    <div>
+      <div class="text-xs text-gray-500">${esc(label)}</div>
+      <div class="text-lg font-semibold text-gray-900">${esc(value)}</div>
+    </div>
+  </div>`;
+}
+
+function renderMetrics() {
+  const s = states[activeState];
+  const nc = s.id === 'never_connected';
+  document.getElementById('metrics-area').innerHTML = `
+    <div class="grid grid-cols-4 gap-3 mb-3">
+      ${metricCard('Revenue Generated', '$4,698,266.29', '$')}
+      ${metricCard('Total Cost', '$63,915.80', '🛒')}
+      ${metricCard('Items Sent', '75,265', '✉')}
+      ${metricCard('New Leads', nc ? '0' : '366', '👤')}
+    </div>
+    <div class="grid grid-cols-4 gap-3 mb-3">
+      ${metricCard('ROI', nc ? '—' : '74x 🔥', '📈')}
+      ${metricCard('Cost Per New Lead', nc ? '—' : '$174.63', '💰')}
+      ${metricCard('Cost Per New Customer', nc ? '—' : '$74.15', '💳')}
+      ${metricCard('New Customers', nc ? '0' : '862', '👥')}
+    </div>
+    <div class="grid grid-cols-4 gap-3">
+      ${metricCard('New Jobs', nc ? '0' : '1,122', '🏠')}
+      ${metricCard('Cost Per Job', nc ? '—' : '$56.97', '📋')}
+      ${metricCard('Revenue per Job', nc ? '—' : '$4,187.40', '💵')}
+    </div>
+    <div class="mt-4 bg-white rounded-lg border border-gray-200 p-4">
+      <div class="text-xs text-gray-400 text-center py-6">[ Existing mailing type breakdown table ]</div>
+    </div>`;
+}
+
+function infoRow(label, value, highlight, warning) {
+  let valueClass = 'text-gray-900';
+  if (warning) valueClass = 'text-red-600 font-medium';
+  else if (highlight) valueClass = 'text-amber-600 font-medium';
+  else if (value === 'N/A') valueClass = 'text-gray-400 italic';
+  return `<div class="flex items-start justify-between py-2.5 border-b border-gray-100 last:border-0">
+    <span class="text-sm text-gray-500 flex-shrink-0 w-40">${esc(label)}</span>
+    <span class="text-sm text-right ${valueClass}">${esc(value)}</span>
+  </div>`;
+}
+
+function renderZone2() {
+  const state = states[activeState];
+  let bannerHTML = '';
+
+  if (state.id === 'disconnected') {
+    bannerHTML = `<div class="mb-4 bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-start gap-3">
+      <span class="text-red-500 text-lg mt-0.5">⚠</span>
+      <div>
+        <div class="text-sm font-medium text-red-800">CRM Disconnected</div>
+        <div class="text-sm text-red-600 mt-0.5">The connection to Housecall Pro was lost on Nov 14, 2024. Data shown reflects the period Jun 8, 2023 – Nov 14, 2024.</div>
+        <button class="text-sm text-red-700 underline mt-1 hover:text-red-900">Reconnect CRM →</button>
+      </div>
+    </div>`;
+  } else if (state.id === 'backfill_in_progress') {
+    bannerHTML = `<div class="mb-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 flex items-start gap-3">
+      <span class="animate-spin text-amber-500 text-lg mt-0.5">◐</span>
+      <div>
+        <div class="text-sm font-medium text-amber-800">Backfill In Progress</div>
+        <div class="text-sm text-amber-600 mt-0.5">Historical data is being imported from ServiceTitan. Dashboard metrics may be incomplete until the backfill finishes.</div>
+      </div>
+    </div>`;
+  } else if (state.id === 'never_connected') {
+    bannerHTML = `<div class="mb-4 bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 flex items-start gap-3">
+      <span class="text-gray-400 text-lg mt-0.5">○</span>
+      <div>
+        <div class="text-sm font-medium text-gray-700">No CRM Connected</div>
+        <div class="text-sm text-gray-500 mt-0.5">This company has not connected a CRM. Lead, customer, and job data is unavailable. Connect a CRM or upload data manually to enable ROI tracking.</div>
+        <div class="flex gap-3 mt-2">
+          <button class="text-sm text-blue-600 underline hover:text-blue-800">Connect CRM →</button>
+          <button class="text-sm text-blue-600 underline hover:text-blue-800">Manual Upload →</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  let detailRows = '';
+  detailRows += infoRow('CRM Connected', state.details.crm);
+  detailRows += infoRow('Connection Date', state.details.connectionDate);
+  if (state.details.disconnectionDate) {
+    detailRows += infoRow('Disconnected', state.details.disconnectionDate, false, true);
+  }
+  if (state.details.syncMethod) {
+    detailRows += infoRow('Sync Method', state.details.syncMethod);
+  }
+  detailRows += infoRow('Last Sync', state.details.lastSync, state.id === 'backfill_in_progress');
+  detailRows += infoRow('Backfill Status', state.details.backfillStatus, state.details.backfillStatus === 'In Progress');
+  detailRows += infoRow('Last Manual Upload', state.details.manualUpload);
+
+  let helperText = '';
+  if (state.id === 'connected_syncing') helperText = `Data syncs via ${state.details.syncMethod.toLowerCase()}`;
+  else if (state.id === 'backfill_in_progress') helperText = 'Backfill typically completes within 24 hours';
+  else if (state.id === 'disconnected') helperText = 'Data is no longer being updated';
+  else if (state.id === 'manual_only') helperText = 'Upload new data to refresh metrics';
+
+  document.getElementById('zone2-details').innerHTML = `
+    <div class="flex items-center gap-2 mb-4">
+      <div class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded">NEW</div>
+      <span class="text-xs font-medium text-blue-600">Zone 2 — CRM Connection Details (bottom of page)</span>
+    </div>
+    ${bannerHTML}
+    <div class="bg-gray-50 rounded-lg border border-gray-200 px-5 py-1">
+      ${detailRows}
+    </div>
+    <div class="mt-3 flex items-center justify-between">
+      <div class="text-xs text-gray-400">${esc(helperText)}</div>
+      <button class="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1.5 bg-blue-50 px-3 py-1.5 rounded-md border border-blue-200 hover:bg-blue-100 transition-colors">
+        <span>↑</span> Manual Upload
+      </button>
+    </div>`;
+}
+
+function setActive(index) {
+  activeState = index;
+  render();
+}
+
+function render() {
+  renderButtons();
+  renderDescription();
+  renderZone1();
+  renderMetrics();
+  renderZone2();
+}
+
+render();
+</script>
+</body>
+</html>
